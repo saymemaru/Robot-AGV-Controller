@@ -1,0 +1,16 @@
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\bin\Debug\net8.0-windows\FR_TCP_Server.exe
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\bin\Debug\net8.0-windows\FR_TCP_Server.deps.json
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\bin\Debug\net8.0-windows\FR_TCP_Server.runtimeconfig.json
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\bin\Debug\net8.0-windows\FR_TCP_Server.dll
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\bin\Debug\net8.0-windows\FR_TCP_Server.pdb
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\obj\Debug\net8.0-windows\FR_TCP_Server.Form1.resources
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\obj\Debug\net8.0-windows\FR_TCP_Server.csproj.GenerateResource.cache
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\obj\Debug\net8.0-windows\FR_TCP_Server.GeneratedMSBuildEditorConfig.editorconfig
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\obj\Debug\net8.0-windows\FR_TCP_Server.AssemblyInfoInputs.cache
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\obj\Debug\net8.0-windows\FR_TCP_Server.AssemblyInfo.cs
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\obj\Debug\net8.0-windows\FR_TCP_Server.csproj.CoreCompileInputs.cache
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\obj\Debug\net8.0-windows\FR_TCP_Server.dll
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\obj\Debug\net8.0-windows\refint\FR_TCP_Server.dll
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\obj\Debug\net8.0-windows\FR_TCP_Server.pdb
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\obj\Debug\net8.0-windows\FR_TCP_Server.genruntimeconfig.cache
+E:\法奥手册与软件开发包\FR_tcp_server\FR_TCP_Server\obj\Debug\net8.0-windows\ref\FR_TCP_Server.dll
