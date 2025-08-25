@@ -30,8 +30,8 @@
         {
             ServerIPBox = new TextBox();
             LogBox = new TextBox();
-            PortBox = new TextBox();
-            textInputBox = new TextBox();
+            ServerPortBox = new TextBox();
+            TextInputBox = new TextBox();
             StartServerButton = new Button();
             ClientIPBox = new TextBox();
             SendButton = new Button();
@@ -39,6 +39,8 @@
             StopServerButton = new Button();
             BoardcastButton = new Button();
             CameraConectionButton1 = new Button();
+            SaveCloudPointButton = new Button();
+            SaveRGBButton = new Button();
             SuspendLayout();
             // 
             // ServerIPBox
@@ -60,24 +62,24 @@
             LogBox.TabIndex = 1;
             LogBox.TextChanged += LogBox_TextChanged;
             // 
-            // PortBox
+            // ServerPortBox
             // 
-            PortBox.Location = new Point(127, 12);
-            PortBox.Name = "PortBox";
-            PortBox.Size = new Size(72, 23);
-            PortBox.TabIndex = 2;
-            PortBox.Text = "1145";
-            PortBox.TextChanged += PortBox_TextChanged;
+            ServerPortBox.Location = new Point(127, 12);
+            ServerPortBox.Name = "ServerPortBox";
+            ServerPortBox.Size = new Size(72, 23);
+            ServerPortBox.TabIndex = 2;
+            ServerPortBox.Text = "1145";
+            ServerPortBox.TextChanged += ServerPortBox_TextChanged;
             // 
-            // textInputBox
+            // TextInputBox
             // 
-            textInputBox.Location = new Point(12, 381);
-            textInputBox.Multiline = true;
-            textInputBox.Name = "textInputBox";
-            textInputBox.ScrollBars = ScrollBars.Vertical;
-            textInputBox.Size = new Size(710, 57);
-            textInputBox.TabIndex = 3;
-            textInputBox.TextChanged += textInputBox_TextChanged;
+            TextInputBox.Location = new Point(12, 381);
+            TextInputBox.Multiline = true;
+            TextInputBox.Name = "TextInputBox";
+            TextInputBox.ScrollBars = ScrollBars.Vertical;
+            TextInputBox.Size = new Size(710, 57);
+            TextInputBox.TabIndex = 3;
+            TextInputBox.TextChanged += TextInputBox_TextChanged;
             // 
             // StartServerButton
             // 
@@ -91,7 +93,7 @@
             // 
             // ClientIPBox
             // 
-            ClientIPBox.Location = new Point(294, 12);
+            ClientIPBox.Location = new Point(383, 12);
             ClientIPBox.Name = "ClientIPBox";
             ClientIPBox.Size = new Size(112, 23);
             ClientIPBox.TabIndex = 5;
@@ -100,7 +102,7 @@
             // 
             // SendButton
             // 
-            SendButton.Location = new Point(490, 12);
+            SendButton.Location = new Point(579, 12);
             SendButton.Name = "SendButton";
             SendButton.Size = new Size(75, 23);
             SendButton.TabIndex = 7;
@@ -110,7 +112,7 @@
             // 
             // ClientPortBox
             // 
-            ClientPortBox.Location = new Point(412, 12);
+            ClientPortBox.Location = new Point(501, 12);
             ClientPortBox.Name = "ClientPortBox";
             ClientPortBox.Size = new Size(72, 23);
             ClientPortBox.TabIndex = 8;
@@ -119,7 +121,7 @@
             // 
             // StopServerButton
             // 
-            StopServerButton.Location = new Point(571, 12);
+            StopServerButton.Location = new Point(294, 12);
             StopServerButton.Name = "StopServerButton";
             StopServerButton.Size = new Size(83, 23);
             StopServerButton.TabIndex = 9;
@@ -129,7 +131,7 @@
             // 
             // BoardcastButton
             // 
-            BoardcastButton.Location = new Point(660, 12);
+            BoardcastButton.Location = new Point(728, 381);
             BoardcastButton.Name = "BoardcastButton";
             BoardcastButton.Size = new Size(74, 23);
             BoardcastButton.TabIndex = 10;
@@ -147,11 +149,32 @@
             CameraConectionButton1.UseVisualStyleBackColor = true;
             CameraConectionButton1.Click += CameraConnectionButton_Click;
             // 
+            // SaveCloudPointButton
+            // 
+            SaveCloudPointButton.Location = new Point(728, 70);
+            SaveCloudPointButton.Name = "SaveCloudPointButton";
+            SaveCloudPointButton.Size = new Size(75, 23);
+            SaveCloudPointButton.TabIndex = 12;
+            SaveCloudPointButton.Text = "保存点云";
+            SaveCloudPointButton.UseVisualStyleBackColor = true;
+            SaveCloudPointButton.Click += SaveCloudPointButton_Click;
+            // 
+            // SaveRGBButton
+            // 
+            SaveRGBButton.Location = new Point(728, 99);
+            SaveRGBButton.Name = "SaveRGBButton";
+            SaveRGBButton.Size = new Size(75, 23);
+            SaveRGBButton.TabIndex = 13;
+            SaveRGBButton.Text = "保存RGB";
+            SaveRGBButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(807, 450);
+            Controls.Add(SaveRGBButton);
+            Controls.Add(SaveCloudPointButton);
             Controls.Add(CameraConectionButton1);
             Controls.Add(BoardcastButton);
             Controls.Add(StopServerButton);
@@ -159,8 +182,8 @@
             Controls.Add(SendButton);
             Controls.Add(ClientIPBox);
             Controls.Add(StartServerButton);
-            Controls.Add(textInputBox);
-            Controls.Add(PortBox);
+            Controls.Add(TextInputBox);
+            Controls.Add(ServerPortBox);
             Controls.Add(LogBox);
             Controls.Add(ServerIPBox);
             Name = "Form1";
@@ -173,8 +196,8 @@
 
         private TextBox ServerIPBox;
         private TextBox LogBox;
-        private TextBox PortBox;
-        private TextBox textInputBox;
+        private TextBox ServerPortBox;
+        private TextBox TextInputBox;
         private Button StartServerButton;
         private TextBox ClientIPBox;
         private Button SendButton;
@@ -182,5 +205,7 @@
         private Button StopServerButton;
         private Button BoardcastButton;
         private Button CameraConectionButton1;
+        private Button SaveCloudPointButton;
+        private Button SaveRGBButton;
     }
 }

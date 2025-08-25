@@ -24,7 +24,7 @@ namespace FR_TCP_Server
             server.MessageReceived += Server_MessageReceived;
 
             serverIP = ServerIPBox.Text;
-            int.TryParse(PortBox.Text, out serverPort);
+            int.TryParse(ServerPortBox.Text, out serverPort);
 
             clientIP = ClientIPBox.Text;
             int.TryParse(ClientPortBox.Text, out clientPort);
@@ -42,6 +42,7 @@ namespace FR_TCP_Server
             AppendTextToLog(msg + Environment.NewLine);
         }
 
+        //线程安全地追加文本到日志文本框
         private void AppendTextToLog(string text)
         {
             if (LogBox.InvokeRequired)
@@ -55,11 +56,12 @@ namespace FR_TCP_Server
             }
         }
 
+        //日志文本框变化
         private void LogBox_TextChanged(object sender, EventArgs e)
         {
 
         }
-
+        //启动服务器
         private void StartServerButton_Click(object sender, EventArgs e)
         {
             try
@@ -71,15 +73,15 @@ namespace FR_TCP_Server
                 MessageBox.Show($"启动服务器失败: {ex.Message}");
             }
         }
-
+        //服务器IP
         private void ServerIPBox_TextChanged(object sender, EventArgs e)
         {
             serverIP = ServerIPBox.Text;
         }
-
-        private void PortBox_TextChanged(object sender, EventArgs e)
+        //服务器端口
+        private void ServerPortBox_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(PortBox.Text, out serverPort))
+            if (int.TryParse(ServerPortBox.Text, out serverPort))
             {
                 // 转换成功，使用number进行后续操作
             }
@@ -88,7 +90,7 @@ namespace FR_TCP_Server
                 System.Windows.Forms.MessageBox.Show("请输入有效的整数");
             }
         }
-
+        //发送消息
         private void SendButton_Click(object sender, EventArgs e)
         {
             try
@@ -100,20 +102,20 @@ namespace FR_TCP_Server
                 MessageBox.Show($"发送消息失败: {ex.Message}");
             }
         }
-
+        //客户端IP
         private void ClientIPBox_TextChanged(object sender, EventArgs e)
         {
             clientIP = ClientIPBox.Text;
         }
-
-        private void textInputBox_TextChanged(object sender, EventArgs e)
+        //输入消息
+        private void TextInputBox_TextChanged(object sender, EventArgs e)
         {
-            inputMessage = textInputBox.Text;
+            inputMessage = TextInputBox.Text;
         }
-
+        //客户端端口
         private void ClientPortBox_TextChanged(object sender, EventArgs e)
         {
-            if (int.TryParse(PortBox.Text, out clientPort))
+            if (int.TryParse(ServerPortBox.Text, out clientPort))
             {
                 // 转换成功，使用number进行后续操作
             }
@@ -122,72 +124,52 @@ namespace FR_TCP_Server
                 System.Windows.Forms.MessageBox.Show("请输入有效的整数");
             }
         }
-
+        //停止服务器
         private void StopServerButton_Click(object sender, EventArgs e)
         {
             server.Stop();
         }
-
+        //广播
         private void BoardcastButton_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textInputBox.Text))
+            if (string.IsNullOrWhiteSpace(TextInputBox.Text))
             {
                 MessageBox.Show("请输入要广播的消息");
                 return;
             }
 
-            server.BroadcastMessage(textInputBox.Text);
-            textInputBox.Clear();
+            server.BroadcastMessage(TextInputBox.Text);
+            TextInputBox.Clear();
         }
-
+        //连接相机
         private void CameraConnectionButton_Click(object sender, EventArgs e)
         {
-            CameraManager.Instance
-            int camer_num = 0;
-            int camera_ret = -1;
-            /*****************
-            打印相机日志
-            SetLogLevel(int error, int debug, int warnning, int info)
-            打开1 关闭0
-            *****************/
-            DkamSDK_CSharp.SetLogLevel(1, 0, 0, 1);
-            //*************************************查询相机************************************
-            //发现局域网内的相机
-            camer_num = DkamSDK_CSharp.DiscoverCamera();
-            AppendTextToLog("Camer num is=" + camer_num + Environment.NewLine);
-            LogBox.ScrollToCaret();
-            //创建相机
-            if (camer_num < 0)
+            string cameraLog;
+
+            if (CameraManager.Instance.isCameraConnected)
             {
-                AppendTextToLog("No camera" + Environment.NewLine);
+                AppendTextToLog($"[{DateTime.Now:HH:mm:ss}] 相机已连接" + Environment.NewLine);
+                LogBox.ScrollToCaret();
+                return;
+            }
+            else if (CameraManager.Instance.InitializeCamera(out cameraLog))
+            {
+                AppendTextToLog($"[{DateTime.Now:HH:mm:ss}] 相机初始化成功: "
+                    + cameraLog + Environment.NewLine);
+                LogBox.ScrollToCaret();
+            }
+            else
+            {
+                AppendTextToLog($"[{DateTime.Now:HH:mm:ss}] 相机初始化失败: "
+                    + cameraLog + Environment.NewLine);
                 LogBox.ScrollToCaret();
             }
 
-            //对局域网内的相机进行排序0：IP 1:series number	
-            int sort = DkamSDK_CSharp.CameraSort(0);
-            AppendTextToLog("the camera sort result=" + sort + Environment.NewLine);
-            LogBox.ScrollToCaret();
+        }
 
-            for (int i = 0; i < camer_num; i++)
-            {
-                //显示局域网内相机IP
-                AppendTextToLog("ip is=" + DkamSDK_CSharp.CameraIP(i) + Environment.NewLine);
-                LogBox.ScrollToCaret();
-                if (String.Compare(DkamSDK_CSharp.CameraIP(i), "192.168.58.11") == 0)
-                {
-                    camera_ret = i;
-                }
+        private void SaveCloudPointButton_Click(object sender, EventArgs e)
+        {
 
-            }
-            //*************************************连接相机************************************
-            //连接相机，输入相机的索引号
-            SWIGTYPE_p_CAMERA_OBJECT camera_obj1 = DkamSDK_CSharp.CreateCamera(camera_ret);
-            int connect = DkamSDK_CSharp.CameraConnect(camera_obj1);
-            AppendTextToLog("Connect Camera result：" + connect + Environment.NewLine);
-            LogBox.ScrollToCaret();
-            //相机和PC机是否在同一个网段内
-            LogBox.AppendText("WhetherIsSameSegment=" + DkamSDK_CSharp.WhetherIsSameSegment(camera_obj1) + Environment.NewLine);
-            LogBox.ScrollToCaret();
         }
     }
 }

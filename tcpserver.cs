@@ -61,6 +61,21 @@ namespace FR_TCP_Server
 
             _isRunning = false;
             _listener.Stop();
+
+            // 释放所有客户端连接
+            lock (_clientsLock)
+            {
+                foreach (var client in _connectedClients)
+                {
+                    try
+                    {
+                        client.Close(); // 或 client.Dispose();
+                    }
+                    catch { }
+                }
+                _connectedClients.Clear();
+            }
+
             Log("服务器已停止");
         }
 
