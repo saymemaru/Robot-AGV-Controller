@@ -20,8 +20,8 @@ namespace FR_TCP_Server
         public int ServerPort { get; private set; }
 
         private readonly CommandSystem _commandSystem = new CommandSystem();
-        private readonly Dictionary<IPEndPoint, DateTime> _lastCommandTime = new Dictionary<IPEndPoint, DateTime>();
-        private const int CommandCooldownSeconds = 1; // 命令冷却时间(秒)
+        internal Dictionary<IPEndPoint, DateTime> _lastCommandTime = new Dictionary<IPEndPoint, DateTime>();
+        public int CommandCooldownSeconds { get;private set; } = 1; // 命令冷却时间(秒)
 
         public event Action<string> LogMessage;  // 日志事件
         public event Action<string, IPEndPoint> MessageReceived;  // 接收消息事件
@@ -40,7 +40,11 @@ namespace FR_TCP_Server
         // 启动服务器
         public void Start(string ip, int port)
         {
-            if (_isRunning) return;
+            if (_isRunning)
+            {
+                Log($"服务器运行中 {ip}:{port}");
+                return;
+            }
 
             ServerIp = ip;
             ServerPort = port;
@@ -126,7 +130,7 @@ namespace FR_TCP_Server
                             string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
 
                             // 检查是否是命令并处理
-                            if (!_commandSystem.ProcessMessage(message, clientEndPoint, this))
+                            if (!_commandSystem.ProcessMessage(message, clientEndPoint, this).Success)
                             {
                                 // 如果不是命令，触发普通消息事件
                                 MessageReceived?.Invoke(message, clientEndPoint);
@@ -192,10 +196,15 @@ namespace FR_TCP_Server
             Log($"已向 {successCount}/{clientsToSend.Count} 个客户端广播消息: {message}");
         }
 
-
         // 向指定客户端发送消息
         public void SendMessage(string ip, int port, string message)
         {
+            //向自身发送的消息不处理
+            if (ip == "127.0.0.1")
+            {
+                return;
+            }
+
             try
             {
                 using (TcpClient client = new TcpClient())
@@ -228,6 +237,31 @@ namespace FR_TCP_Server
             }
         }
 
+        public void ExecuteServerCommand(string commandText)
+        {
+            try
+            {
+                // 创建一个虚拟的发送者（代表服务器自身）
+                IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 0);
+                CommandResult commandResult = _commandSystem.ProcessMessage(commandText, serverEndPoint, this);
+                // 处理指令
+                if (commandResult.Success)
+                {
+                    Log($"执行成功: {commandResult.Message}");
+                    return;
+                }
+                else
+                {
+                    Log($"执行失败: {commandResult.Message}");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log($"执行错误: {ex.Message}");
+                return;
+            }
+        }
 
         //获取连接的客户端
         public List<string> GetConnectedClients()

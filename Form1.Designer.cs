@@ -167,6 +167,7 @@
             SaveRGBButton.TabIndex = 13;
             SaveRGBButton.Text = "保存RGB";
             SaveRGBButton.UseVisualStyleBackColor = true;
+            SaveRGBButton.Click += SaveRGBButton_Click;
             // 
             // Form1
             // 

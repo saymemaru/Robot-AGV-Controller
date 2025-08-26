@@ -1,4 +1,5 @@
 using System.Net;
+using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace FR_TCP_Server
@@ -61,23 +62,27 @@ namespace FR_TCP_Server
         {
 
         }
+
         //启动服务器
         private void StartServerButton_Click(object sender, EventArgs e)
         {
             try
             {
                 server.Start(serverIP, serverPort);
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"启动服务器失败: {ex.Message}");
             }
         }
+
         //服务器IP
         private void ServerIPBox_TextChanged(object sender, EventArgs e)
         {
             serverIP = ServerIPBox.Text;
         }
+
         //服务器端口
         private void ServerPortBox_TextChanged(object sender, EventArgs e)
         {
@@ -90,6 +95,7 @@ namespace FR_TCP_Server
                 System.Windows.Forms.MessageBox.Show("请输入有效的整数");
             }
         }
+
         //发送消息
         private void SendButton_Click(object sender, EventArgs e)
         {
@@ -102,16 +108,19 @@ namespace FR_TCP_Server
                 MessageBox.Show($"发送消息失败: {ex.Message}");
             }
         }
+
         //客户端IP
         private void ClientIPBox_TextChanged(object sender, EventArgs e)
         {
             clientIP = ClientIPBox.Text;
         }
+
         //输入消息
         private void TextInputBox_TextChanged(object sender, EventArgs e)
         {
             inputMessage = TextInputBox.Text;
         }
+
         //客户端端口
         private void ClientPortBox_TextChanged(object sender, EventArgs e)
         {
@@ -124,23 +133,34 @@ namespace FR_TCP_Server
                 System.Windows.Forms.MessageBox.Show("请输入有效的整数");
             }
         }
+
         //停止服务器
         private void StopServerButton_Click(object sender, EventArgs e)
         {
             server.Stop();
         }
+
         //广播
         private void BoardcastButton_Click(object sender, EventArgs e)
         {
+            //输入为空
             if (string.IsNullOrWhiteSpace(TextInputBox.Text))
             {
                 MessageBox.Show("请输入要广播的消息");
                 return;
             }
-
-            server.BroadcastMessage(TextInputBox.Text);
+            //不是命令
+            if (!TextInputBox.Text.StartsWith("/"))
+            {
+                server.BroadcastMessage(TextInputBox.Text);
+                TextInputBox.Clear();
+                return;
+            }
+            //是命令
+            server.ExecuteServerCommand(TextInputBox.Text);
             TextInputBox.Clear();
         }
+
         //连接相机
         private void CameraConnectionButton_Click(object sender, EventArgs e)
         {
@@ -164,12 +184,28 @@ namespace FR_TCP_Server
                     + cameraLog + Environment.NewLine);
                 LogBox.ScrollToCaret();
             }
-
         }
 
+        //保存点云图
         private void SaveCloudPointButton_Click(object sender, EventArgs e)
         {
+            if (!CameraManager.Instance.isCameraConnected)
+            {
+                MessageBox.Show("请先连接相机");
+                return;
+            }
+            CameraManager.Instance.SaveCloudPointFile();
+        }
 
+        //保存RGB图像
+        private void SaveRGBButton_Click(object sender, EventArgs e)
+        {
+            if (!CameraManager.Instance.isCameraConnected)
+            {
+                MessageBox.Show("请先连接相机");
+                return;
+            }
+            CameraManager.Instance.SaveRGBFile();
         }
     }
 }
