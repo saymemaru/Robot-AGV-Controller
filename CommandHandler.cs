@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,6 +14,7 @@ namespace FR_TCP_Server
         string CommandName { get; }
         string Description { get; }
         CommandResult Execute(string[] args, IPEndPoint sender, TcpServer server);
+
     }
 
     // 命令执行结果
@@ -32,21 +34,26 @@ namespace FR_TCP_Server
     public class CommandSystem
     {
         // 存储注册命令字典
-        private readonly Dictionary<string, ICommandHandler> _commandHandlers =
-            new Dictionary<string, ICommandHandler>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, ICommandHandler> _commandHandlers =
+            new(StringComparer.OrdinalIgnoreCase);
 
         // 注册命令
         public void RegisterCommand(ICommandHandler handler)
         {
+            if (_commandHandlers.ContainsKey(handler.CommandName))
+                throw new InvalidOperationException($"命令已注册: {handler.CommandName}");
             _commandHandlers[handler.CommandName] = handler;
         }
 
         // 处理指令
         public CommandResult ProcessMessage(string message, IPEndPoint sender, TcpServer server)
         {
-            // 检查是否是命令格式 (例如: /command arg1 arg2)
+            // 检查是否以斜杠开头 (例如: /command arg1 arg2)
             if (!message.StartsWith("/"))
-                return new CommandResult(false, "不是有效的命令格式");
+            {
+                server.SendMessage(sender.Address, sender.Port, "不是有效的命令格式，请以斜杠开头");
+                return new CommandResult(false, "不是有效的命令格式，请以斜杠开头");
+            }
 
             // 服务器指令冷却判断
             var lastCommandTime = server._lastCommandTime;
@@ -56,20 +63,23 @@ namespace FR_TCP_Server
             {
                 if ((now - lastTime).TotalSeconds < cooldownSeconds)
                 {
-                    server.SendMessage(sender.Address.ToString(), sender.Port, $"命令冷却中，请稍后再试（{cooldownSeconds}秒）");
+                    server.SendMessage(sender.Address, sender.Port, $"命令冷却中，请稍后再试（{cooldownSeconds}秒）");
                     return new CommandResult(true, $"命令冷却中，请稍后再试（{cooldownSeconds}秒）");
                 }
             }
 
-            // 解析命令和参数
-            var parts = message.Substring(1).Split(' ');
+            // 解析命令和参数,以空格分割
+            var parts = message.Substring(1).Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length == 0)
-                return new CommandResult(false, "不是有效的命令格式");
+            {
+                server.SendMessage(sender.Address, sender.Port, "不是有效的命令格式，请填入参数");
+                return new CommandResult(false, "不是有效的命令格式，请填入参数");
+            }
 
+            
+            //分割命令和参数
             var commandName = parts[0];
-            var args = parts.Length > 1 ?
-                new ArraySegment<string>(parts, 1, parts.Length - 1).Array :
-                new string[0];
+            var args = parts.Skip(1).ToArray();
 
             // 查找命令处理器并执行
             if (_commandHandlers.TryGetValue(commandName, out var handler))
@@ -81,7 +91,7 @@ namespace FR_TCP_Server
             }
 
             // 命令未找到
-            server.SendMessage(sender.Address.ToString(), sender.Port, $"未知命令: {commandName}");
+            server.SendMessage(sender.Address, sender.Port, $"未知命令: {commandName}");
             return new CommandResult(false, $"未知命令: {commandName}");
         }
 
@@ -105,11 +115,11 @@ namespace FR_TCP_Server
         {
             if (args.Length == 0)
             {
-                server.SendMessage(sender.Address.ToString(), sender.Port, "用法: /broadcast <消息>");
-                return new CommandResult(false, "不是有效的命令格式");
+                server.SendMessage(sender.Address, sender.Port, "用法: /broadcast <消息>");
+                return new CommandResult(false, "用法: /broadcast <消息>");
             }
 
-            string message = string.Join(" ", args.Skip(1).ToArray());
+            string message = string.Join(" ", args);
             server.BroadcastMessage($"[广播] {sender.Address} 说: {message}");
             return new CommandResult(true, $"{sender.Address} [广播] {message}");
         }
@@ -123,7 +133,7 @@ namespace FR_TCP_Server
 
         public CommandResult Execute(string[] args, IPEndPoint sender, TcpServer server)
         {
-            server.SendMessage(sender.Address.ToString(), sender.Port,
+            server.SendMessage(sender.Address, sender.Port,
                 $"服务器时间: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
             return new CommandResult(true, $"服务器时间: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
         }
@@ -138,11 +148,11 @@ namespace FR_TCP_Server
         public CommandResult Execute(string[] args, IPEndPoint sender, TcpServer server)
         {
             // 注意: 这里需要修改TcpServer以提供获取客户端列表的方法
-            var clients = server.GetConnectedClients();
+            var clients = server.GetConnectedClientsAddresses();
 
             if (clients.Count == 0)
             {
-                server.SendMessage(sender.Address.ToString(), sender.Port, "没有客户端在线");
+                server.SendMessage(sender.Address, sender.Port, "没有客户端在线");
                 return new CommandResult(false, "没有客户端在线");
             }
 
@@ -152,7 +162,7 @@ namespace FR_TCP_Server
                 response += $"- {client}\n";
             }
 
-            server.SendMessage(sender.Address.ToString(), sender.Port, response);
+            server.SendMessage(sender.Address, sender.Port, response);
             return new CommandResult(true, response);
         }
     }
@@ -180,8 +190,44 @@ namespace FR_TCP_Server
                 response += $"{cmd}\n";
             }
 
-            server.SendMessage(sender.Address.ToString(), sender.Port, response);
+            server.SendMessage(sender.Address, sender.Port, response);
             return new CommandResult(true, response);
+        }
+    }
+
+    // 私聊命令
+    public class WhisperCommand : ICommandHandler
+    {
+        public string CommandName => "whisper";
+        public string Description => "向指定IP的客户端发送私聊消息，用法: /whisper <目标IP> <消息>";
+
+        public CommandResult Execute(string[] args, IPEndPoint sender, TcpServer server)
+        {
+
+            //此处没有考虑消息为空格字符的情况
+            if (args.Length < 2)
+            {
+                server.SendMessage(sender.Address, sender.Port, "用法: /whisper <目标IP> <消息>");
+                return new CommandResult(false, "用法: /whisper <目标IP> <消息>");
+            }
+
+            string targetIp = args[0];
+            string message = string.Join(" ", args.Skip(1));
+
+            // 查找目标客户端端口
+            List<IPEndPoint> clientsIPEndPoint = server.GetConnectedClientsIPEndPoint();
+            var targetClient = clientsIPEndPoint.FirstOrDefault(c =>
+                c.Address.ToString() == targetIp);
+
+            if (targetClient == null)
+            {
+                server.SendMessage(sender.Address, sender.Port, $"未找到目标客户端: {targetIp}");
+                return new CommandResult(false, $"{sender.Address} 未找到目标客户端: {targetIp}");
+            }
+
+            server.SendMessage(targetClient.Address, targetClient.Port, $"[私聊] {sender.Address} 说: {message}");
+            server.SendMessage(sender.Address, sender.Port, $"已发送私聊给 {targetIp}: {message}");
+            return new CommandResult(true, $"{sender.Address} [私聊] {targetIp}: {message}");
         }
     }
 }

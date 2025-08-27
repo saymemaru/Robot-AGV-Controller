@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -157,7 +158,9 @@ namespace FR_TCP_Server
                 return;
             }
             //是命令
-            server.ExecuteServerCommand(TextInputBox.Text);
+            // 先在UI线程读取文本
+            string commandText = TextInputBox.Text;
+            ThreadPool.QueueUserWorkItem(_ => server.ExecuteServerCommand(commandText));
             TextInputBox.Clear();
         }
 

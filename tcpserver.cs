@@ -35,6 +35,7 @@ namespace FR_TCP_Server
             _commandSystem.RegisterCommand(new TimeCommand());
             _commandSystem.RegisterCommand(new ListClientsCommand());
             _commandSystem.RegisterCommand(new HelpCommand(_commandSystem));
+            _commandSystem.RegisterCommand(new WhisperCommand());
         }
 
         // 启动服务器
@@ -220,6 +221,28 @@ namespace FR_TCP_Server
                 Log($"发送消息错误: {ex.Message}");
             }
         }
+        public void SendMessage(IPAddress ip, int port, string message)
+        {
+            //向自身发送的消息不处理
+            if (ip.Equals(IPAddress.Loopback))
+            {
+                return;
+            }
+            try
+            {
+                using (TcpClient client = new TcpClient())
+                {
+                    client.Connect(ip, port);
+                    byte[] data = Encoding.UTF8.GetBytes(message);
+                    client.GetStream().Write(data, 0, data.Length);
+                    Log($"已发送消息到 {ip}:{port}：{message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log($"发送消息错误: {ex.Message}");
+            }
+        }
 
         private void Log(string message)
         {
@@ -264,7 +287,7 @@ namespace FR_TCP_Server
         }
 
         //获取连接的客户端
-        public List<string> GetConnectedClients()
+        public List<string> GetConnectedClientsAddresses()
         {
             lock (_clientsLock)
             {
@@ -285,6 +308,42 @@ namespace FR_TCP_Server
                     }
                 }
                 return result;
+            }
+        }
+        public List<IPEndPoint> GetConnectedClientsIPEndPoint()
+        {
+            lock (_clientsLock)
+            {
+                var result = new List<IPEndPoint>();
+                foreach (var client in _connectedClients)
+                {
+                    try
+                    {
+                        if (client.Connected)
+                        {
+                            var endPoint = (IPEndPoint)client.Client.RemoteEndPoint;
+                            result.Add(endPoint);
+                        }
+                    }
+                    catch
+                    {
+                        // 忽略已断开连接的客户端
+                    }
+                }
+                return result;
+            }
+        }
+        public List<TcpClient> GetConnectedTcpClients()
+        {
+            lock (_clientsLock)
+            {
+                return _connectedClients
+                    .Where(client =>
+                    {
+                        try { return client.Connected; }
+                        catch { return false; }
+                    })
+                    .ToList();
             }
         }
     }
