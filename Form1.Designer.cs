@@ -41,6 +41,8 @@
             CameraConectionButton1 = new Button();
             SaveCloudPointButton = new Button();
             SaveRGBButton = new Button();
+            HttpServerUrlBox = new TextBox();
+            StartHttpServerButton = new Button();
             SuspendLayout();
             // 
             // ServerIPBox
@@ -54,7 +56,7 @@
             // 
             // LogBox
             // 
-            LogBox.Location = new Point(12, 41);
+            LogBox.Location = new Point(12, 99);
             LogBox.Multiline = true;
             LogBox.Name = "LogBox";
             LogBox.ScrollBars = ScrollBars.Vertical;
@@ -73,7 +75,7 @@
             // 
             // TextInputBox
             // 
-            TextInputBox.Location = new Point(12, 381);
+            TextInputBox.Location = new Point(12, 443);
             TextInputBox.Multiline = true;
             TextInputBox.Name = "TextInputBox";
             TextInputBox.ScrollBars = ScrollBars.Vertical;
@@ -131,7 +133,7 @@
             // 
             // BoardcastButton
             // 
-            BoardcastButton.Location = new Point(728, 381);
+            BoardcastButton.Location = new Point(729, 443);
             BoardcastButton.Name = "BoardcastButton";
             BoardcastButton.Size = new Size(74, 23);
             BoardcastButton.TabIndex = 10;
@@ -169,11 +171,32 @@
             SaveRGBButton.UseVisualStyleBackColor = true;
             SaveRGBButton.Click += SaveRGBButton_Click;
             // 
+            // HttpServerUrlBox
+            // 
+            HttpServerUrlBox.Location = new Point(12, 41);
+            HttpServerUrlBox.Name = "HttpServerUrlBox";
+            HttpServerUrlBox.Size = new Size(187, 23);
+            HttpServerUrlBox.TabIndex = 14;
+            HttpServerUrlBox.Text = "http://192.168.2.102:8090/";
+            HttpServerUrlBox.TextChanged += httpServerUrlBox_TextChanged;
+            // 
+            // StartHttpServerButton
+            // 
+            StartHttpServerButton.Location = new Point(205, 41);
+            StartHttpServerButton.Name = "StartHttpServerButton";
+            StartHttpServerButton.Size = new Size(83, 23);
+            StartHttpServerButton.TabIndex = 15;
+            StartHttpServerButton.Text = "Start Listen";
+            StartHttpServerButton.UseVisualStyleBackColor = true;
+            StartHttpServerButton.Click += StartHttpServerButton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(807, 450);
+            ClientSize = new Size(818, 512);
+            Controls.Add(StartHttpServerButton);
+            Controls.Add(HttpServerUrlBox);
             Controls.Add(SaveRGBButton);
             Controls.Add(SaveCloudPointButton);
             Controls.Add(CameraConectionButton1);
@@ -208,5 +231,7 @@
         private Button CameraConectionButton1;
         private Button SaveCloudPointButton;
         private Button SaveRGBButton;
+        private TextBox HttpServerUrlBox;
+        private Button StartHttpServerButton;
     }
 }

@@ -7,6 +7,8 @@ namespace FR_TCP_Server
 {
     public partial class Form1 : Form
     {
+        private string httpServerUrl;
+
         private TcpServer server;
         private string serverIP;
         private int serverPort;
@@ -14,13 +16,21 @@ namespace FR_TCP_Server
         private string clientIP;
         private int clientPort;
 
-        private string inputMessage;
+        private HttpServerHelper httpServer;
+
+        private string? inputMessage;
 
 
         public Form1()
         {
             InitializeComponent();
 
+            //http
+            httpServer = new HttpServerHelper();
+            httpServer.LogMessage += Server_LogMessage;
+            httpServerUrl = HttpServerUrlBox.Text;
+
+            //tcp
             server = new TcpServer();
             server.LogMessage += Server_LogMessage;
             server.MessageReceived += Server_MessageReceived;
@@ -34,17 +44,17 @@ namespace FR_TCP_Server
 
         private void Server_MessageReceived(string msg, IPEndPoint endPoint)
         {
-            // ×·¼Ó½ÓÊÕµ½µÄÏûÏ¢µ½ÎÄ±¾¿ò
-            //AppendTextToLog($"À´×Ô {endPoint} µÄÏûÏ¢: {msg}" + Environment.NewLine);
+            // è¿½åŠ æ¥æ”¶åˆ°çš„æ¶ˆæ¯åˆ°æ–‡æœ¬æ¡†
+            //AppendTextToLog($"æ¥è‡ª {endPoint} çš„æ¶ˆæ¯: {msg}" + Environment.NewLine);
         }
 
         private void Server_LogMessage(string msg)
         {
-            // ×·¼ÓÈÕÖ¾µ½ÎÄ±¾¿ò
+            // è¿½åŠ æ—¥å¿—åˆ°æ–‡æœ¬æ¡†
             AppendTextToLog(msg + Environment.NewLine);
         }
 
-        //Ïß³Ì°²È«µØ×·¼ÓÎÄ±¾µ½ÈÕÖ¾ÎÄ±¾¿ò
+        //çº¿ç¨‹å®‰å…¨åœ°è¿½åŠ æ–‡æœ¬åˆ°æ—¥å¿—æ–‡æœ¬æ¡†
         private void AppendTextToLog(string text)
         {
             if (LogBox.InvokeRequired)
@@ -54,17 +64,17 @@ namespace FR_TCP_Server
             else
             {
                 LogBox.AppendText(text);
-                LogBox.ScrollToCaret(); // ×Ô¶¯¹ö¶¯µ½µ×²¿
+                LogBox.ScrollToCaret(); // è‡ªåŠ¨æ»šåŠ¨åˆ°åº•éƒ¨
             }
         }
 
-        //ÈÕÖ¾ÎÄ±¾¿ò±ä»¯
+        //æ—¥å¿—æ–‡æœ¬æ¡†å˜åŒ–
         private void LogBox_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        //Æô¶¯·şÎñÆ÷
+        //å¯åŠ¨æœåŠ¡å™¨
         private void StartServerButton_Click(object sender, EventArgs e)
         {
             try
@@ -74,30 +84,30 @@ namespace FR_TCP_Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Æô¶¯·şÎñÆ÷Ê§°Ü: {ex.Message}");
+                MessageBox.Show($"å¯åŠ¨æœåŠ¡å™¨å¤±è´¥: {ex.Message}");
             }
         }
 
-        //·şÎñÆ÷IP
+        //æœåŠ¡å™¨IP
         private void ServerIPBox_TextChanged(object sender, EventArgs e)
         {
             serverIP = ServerIPBox.Text;
         }
 
-        //·şÎñÆ÷¶Ë¿Ú
+        //æœåŠ¡å™¨ç«¯å£
         private void ServerPortBox_TextChanged(object sender, EventArgs e)
         {
             if (int.TryParse(ServerPortBox.Text, out serverPort))
             {
-                // ×ª»»³É¹¦£¬Ê¹ÓÃnumber½øĞĞºóĞø²Ù×÷
+                // è½¬æ¢æˆåŠŸï¼Œä½¿ç”¨numberè¿›è¡Œåç»­æ“ä½œ
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show("ÇëÊäÈëÓĞĞ§µÄÕûÊı");
+                System.Windows.Forms.MessageBox.Show("è¯·è¾“å…¥æœ‰æ•ˆçš„æ•´æ•°");
             }
         }
 
-        //·¢ËÍÏûÏ¢
+        //å‘é€æ¶ˆæ¯
         private void SendButton_Click(object sender, EventArgs e)
         {
             try
@@ -106,109 +116,128 @@ namespace FR_TCP_Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"·¢ËÍÏûÏ¢Ê§°Ü: {ex.Message}");
+                MessageBox.Show($"å‘é€æ¶ˆæ¯å¤±è´¥: {ex.Message}");
             }
         }
 
-        //¿Í»§¶ËIP
+        //å®¢æˆ·ç«¯IP
         private void ClientIPBox_TextChanged(object sender, EventArgs e)
         {
             clientIP = ClientIPBox.Text;
         }
 
-        //ÊäÈëÏûÏ¢
+        //è¾“å…¥æ¶ˆæ¯
         private void TextInputBox_TextChanged(object sender, EventArgs e)
         {
             inputMessage = TextInputBox.Text;
         }
 
-        //¿Í»§¶Ë¶Ë¿Ú
+        //å®¢æˆ·ç«¯ç«¯å£
         private void ClientPortBox_TextChanged(object sender, EventArgs e)
         {
             if (int.TryParse(ServerPortBox.Text, out clientPort))
             {
-                // ×ª»»³É¹¦£¬Ê¹ÓÃnumber½øĞĞºóĞø²Ù×÷
+                // è½¬æ¢æˆåŠŸï¼Œä½¿ç”¨numberè¿›è¡Œåç»­æ“ä½œ
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show("ÇëÊäÈëÓĞĞ§µÄÕûÊı");
+                System.Windows.Forms.MessageBox.Show("è¯·è¾“å…¥æœ‰æ•ˆçš„æ•´æ•°");
             }
         }
 
-        //Í£Ö¹·şÎñÆ÷
+        //åœæ­¢æœåŠ¡å™¨
         private void StopServerButton_Click(object sender, EventArgs e)
         {
             server.Stop();
         }
 
-        //¹ã²¥
+        //å¹¿æ’­
         private void BoardcastButton_Click(object sender, EventArgs e)
         {
-            //ÊäÈëÎª¿Õ
+            //è¾“å…¥ä¸ºç©º
             if (string.IsNullOrWhiteSpace(TextInputBox.Text))
             {
-                MessageBox.Show("ÇëÊäÈëÒª¹ã²¥µÄÏûÏ¢");
+                MessageBox.Show("è¯·è¾“å…¥è¦å¹¿æ’­çš„æ¶ˆæ¯");
                 return;
             }
-            //²»ÊÇÃüÁî
+            //ä¸æ˜¯å‘½ä»¤
             if (!TextInputBox.Text.StartsWith("/"))
             {
                 server.BroadcastMessage(TextInputBox.Text);
                 TextInputBox.Clear();
                 return;
             }
-            //ÊÇÃüÁî
-            // ÏÈÔÚUIÏß³Ì¶ÁÈ¡ÎÄ±¾
+            //æ˜¯å‘½ä»¤
+            // å…ˆåœ¨UIçº¿ç¨‹è¯»å–æ–‡æœ¬
             string commandText = TextInputBox.Text;
             ThreadPool.QueueUserWorkItem(_ => server.ExecuteServerCommand(commandText));
             TextInputBox.Clear();
         }
 
-        //Á¬½ÓÏà»ú
+        //è¿æ¥ç›¸æœº
         private void CameraConnectionButton_Click(object sender, EventArgs e)
         {
             string cameraLog;
 
             if (CameraManager.Instance.isCameraConnected)
             {
-                AppendTextToLog($"[{DateTime.Now:HH:mm:ss}] Ïà»úÒÑÁ¬½Ó" + Environment.NewLine);
+                AppendTextToLog($"[{DateTime.Now:HH:mm:ss}] ç›¸æœºå·²è¿æ¥" + Environment.NewLine);
                 LogBox.ScrollToCaret();
                 return;
             }
             else if (CameraManager.Instance.InitializeCamera(out cameraLog))
             {
-                AppendTextToLog($"[{DateTime.Now:HH:mm:ss}] Ïà»ú³õÊ¼»¯³É¹¦: "
+                AppendTextToLog($"[{DateTime.Now:HH:mm:ss}] ç›¸æœºåˆå§‹åŒ–æˆåŠŸ: "
                     + cameraLog + Environment.NewLine);
                 LogBox.ScrollToCaret();
             }
             else
             {
-                AppendTextToLog($"[{DateTime.Now:HH:mm:ss}] Ïà»ú³õÊ¼»¯Ê§°Ü: "
+                AppendTextToLog($"[{DateTime.Now:HH:mm:ss}] ç›¸æœºåˆå§‹åŒ–å¤±è´¥: "
                     + cameraLog + Environment.NewLine);
                 LogBox.ScrollToCaret();
             }
         }
 
-        //±£´æµãÔÆÍ¼
+        //ä¿å­˜ç‚¹äº‘å›¾
         private void SaveCloudPointButton_Click(object sender, EventArgs e)
         {
             if (!CameraManager.Instance.isCameraConnected)
             {
-                MessageBox.Show("ÇëÏÈÁ¬½ÓÏà»ú");
+                MessageBox.Show("è¯·å…ˆè¿æ¥ç›¸æœº");
                 return;
             }
             CameraManager.Instance.SaveCloudPointFile();
         }
 
-        //±£´æRGBÍ¼Ïñ
+        //ä¿å­˜RGBå›¾åƒ
         private void SaveRGBButton_Click(object sender, EventArgs e)
         {
             if (!CameraManager.Instance.isCameraConnected)
             {
-                MessageBox.Show("ÇëÏÈÁ¬½ÓÏà»ú");
+                MessageBox.Show("è¯·å…ˆè¿æ¥ç›¸æœº");
                 return;
             }
             CameraManager.Instance.SaveRGBFile();
+        }
+
+        //httpæœåŠ¡å™¨URLè¾“å…¥
+        private void httpServerUrlBox_TextChanged(object sender, EventArgs e)
+        {
+            httpServerUrl = HttpServerUrlBox.Text;
+        }
+
+        //å¯åŠ¨httpæœåŠ¡å™¨
+        private async void StartHttpServerButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+               await httpServer.Start(httpServerUrl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"å¯åŠ¨æœåŠ¡å™¨å¤±è´¥: {ex.Message}");
+            }
         }
     }
 }

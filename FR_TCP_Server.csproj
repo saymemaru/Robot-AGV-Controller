@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="DkamSDK_CSharp_Namespace">
       <HintPath>bin\x64\Release\DkamSDK_CSharp_Namespace.dll</HintPath>
     </Reference>
