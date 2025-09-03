@@ -36,6 +36,7 @@ namespace FR_TCP_Server
         // 存储注册命令字典
         private readonly ConcurrentDictionary<string, ICommandHandler> _commandHandlers =
             new(StringComparer.OrdinalIgnoreCase);
+        private readonly char commandSymbol = '/';
 
         // 注册命令
         public void RegisterCommand(ICommandHandler handler)
@@ -49,7 +50,7 @@ namespace FR_TCP_Server
         public CommandResult ProcessMessage(string message, IPEndPoint sender, TcpServer server)
         {
             // 检查是否以斜杠开头 (例如: /command arg1 arg2)
-            if (!message.StartsWith("/"))
+            if (!message.StartsWith(commandSymbol))
             {
                 server.SendMessage(sender.Address, sender.Port, "不是有效的命令格式，请以斜杠开头");
                 return new CommandResult(false, "不是有效的命令格式，请以斜杠开头");

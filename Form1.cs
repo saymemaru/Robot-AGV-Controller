@@ -13,7 +13,7 @@ namespace FR_TCP_Server
         private string serverIP;
         private int serverPort;
 
-        private string clientIP;
+        private IPAddress clientIP;
         private int clientPort;
 
         private HttpServerHelper httpServer;
@@ -38,7 +38,7 @@ namespace FR_TCP_Server
             serverIP = ServerIPBox.Text;
             int.TryParse(ServerPortBox.Text, out serverPort);
 
-            clientIP = ClientIPBox.Text;
+            clientIP = IPAddress.Parse(ClientIPBox.Text);
             int.TryParse(ClientPortBox.Text, out clientPort);
         }
 
@@ -123,7 +123,7 @@ namespace FR_TCP_Server
         //客户端IP
         private void ClientIPBox_TextChanged(object sender, EventArgs e)
         {
-            clientIP = ClientIPBox.Text;
+            clientIP = IPAddress.Parse(ClientIPBox.Text);
         }
 
         //输入消息
