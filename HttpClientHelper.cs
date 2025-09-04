@@ -21,7 +21,21 @@ namespace FR_TCP_Server
                 _httpClient.Timeout = TimeSpan.FromSeconds(_timeoutSeconds); // 设置超时时间
             }
 
-            public async Task<T> ExecuteAsync<T>(string url, HttpMethod method, string? content = null, dynamic headers = null)
+            public class RequestResult
+            {
+                public bool Success { get; set; }
+
+                public string Content { get; set; }
+
+                public RequestResult(bool success, string content = "")
+                {
+                    Success = success;
+                    Content = content;
+                }
+                    
+            }
+
+            public async Task<RequestResult> ExecuteAsync(string url, HttpMethod method, string? content = null, dynamic headers = null)
             {
 
                 try
@@ -50,11 +64,12 @@ namespace FR_TCP_Server
                             // 确保成功状态码
                             _ = response.EnsureSuccessStatusCode();
 
+                            //待办（响应内容转换为其他格式，目前为字符串）
                             // 读取响应内容
-                            var responseContent = await response.Content.ReadAsStringAsync();
-
-                            // 反序列化响应
-                            return JsonConvert.DeserializeObject<T>(responseContent);
+                            string responseContent = await response.Content.ReadAsStringAsync();
+                            
+                            //JsonConvert.DeserializeObject(responseContent);
+                            return new RequestResult(true, responseContent);
                         }
                     }
                 }
@@ -75,6 +90,7 @@ namespace FR_TCP_Server
                 }
             }
 
+            //待办（将Log搓到Utility里，形成通用方法）
 
             private void Log(string message)
             {

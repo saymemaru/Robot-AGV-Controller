@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,15 @@ namespace FR_TCP_Server
 {
     internal static class Utility
     {
-
-        //生成文件路径，起始路径为应用程序启动路径，
+ 
+        /// <summary>
+        /// 生成文件路径，起始路径为应用程序启动路径，
+        /// </summary>
+        /// <param name="relativePath"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         //relativePath为相对路径，fileName为可选的文件名
         public static string GetValidatedSavePath(string relativePath, string fileName = null)
         {

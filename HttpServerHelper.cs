@@ -1,24 +1,30 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Net.Http;
+﻿using Microsoft.VisualBasic.Logging;
 using Newtonsoft.Json;  
-using System.Threading.Tasks;
+using System;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace FR_TCP_Server
 
 {
     public class HttpServerHelper
     {
+        //http侦听器
         private readonly HttpListener _listener;
         //api路由处理字典
         private readonly Dictionary<string, Action<HttpListenerRequest, HttpListenerResponse>> _routeHandlers;
         //跳出侦听循环标识符
-        private CancellationTokenSource? _cts; 
+        private CancellationTokenSource? _cts;
+
+        //服务器运行状态
         public bool isRunning { get;private set; } = false;
 
-        public event Action<string>? LogMessage;  // 日志事件
+        // 日志事件
+        public event Action<string>? LogMessage;  
 
         public HttpServerHelper()
         {
@@ -57,7 +63,11 @@ namespace FR_TCP_Server
             }
         }
 
-
+        /// <summary>
+        /// 循环侦听请求
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         private async Task ListenForRequests(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
@@ -108,17 +118,24 @@ namespace FR_TCP_Server
                 // 将JSON字符串转换为RequestData（json）对象（待实现）
                 if (requestBody != null)
                 {
+                    //尝试收集并注册发出请求的AGV信息
+                    AGVInfoManager.Instance.TryRegisterAGV(requestBody, out var agvInfo);
+
+                    //调试
+                    Log($"{JsonConvert.SerializeObject(agvInfo)}");//当前agv信息
+                    Log($"{JsonConvert.SerializeObject(AGVInfoManager.Instance.AGVInfoDic)}");//所有已注册的agv信息
                     Log($"请求内容: {requestBody}");
-                    //RequestData requestData = JsonConvert.DeserializeObject<RequestData>(requestBody)
                 }
 
                 // 处理不同的HTTP方法（只支持json）
                 switch (request.HttpMethod)
                 {
-                    case "GET"://rcs请求数据
+                    case "GET":
+                        //Get方法
                         break;
 
-                    case "POST"://rcs推送数据，目前无论是否接收到请求内容都返回成功
+                    case "POST":
+                        //rcs推送数据/请求数据，目前无论是否接收到请求内容都返回成功
                         ApiRequestHandler(request, response);
                         break;
 
@@ -138,15 +155,26 @@ namespace FR_TCP_Server
             }
         }
 
+
+        /// <summary>
+        /// 发送响应(json)
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="statusCode"></param>
+        /// <param name="responseObject"></param>
+        /// <returns></returns>
         private async Task SendResponse(HttpListenerResponse response, HttpStatusCode statusCode, object responseObject)
         {
             try
             {
-                //json序列化
+                //json序列化，UTF8
                 string jsonResponse = JsonConvert.SerializeObject(responseObject);
                 var buffer = Encoding.UTF8.GetBytes(jsonResponse);
 
+                //待办（查看响应头正规写法）
                 //设置响应头
+                //response.Headers.Add("Access-Control-Allow-Origin", "*"); // 允许所有来源
+
                 // 设置返回内容的长度
                 response.ContentLength64 = buffer.Length;
                 // 设置HTTP状态码，200表示成功
@@ -196,7 +224,9 @@ namespace FR_TCP_Server
             }
         }
 
-        //停止侦听
+        /// <summary>
+        /// 停止侦听
+        /// </summary>
         private void Stop()
         {
             _cts?.Cancel();
@@ -207,7 +237,7 @@ namespace FR_TCP_Server
             Log("已停止侦听。");
         }
 
-
+        //待办（计划修改为类似commandHandler的接口）
         // 处理API请求
         private void ApiRequestHandler(HttpListenerRequest request, HttpListenerResponse response)
         {

@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FR_TCP_Server
-{`
+{
+    //待办（形成相机接口，适配多种相机，目前说D134相机）
     internal class CameraManager
     {
         private static readonly Lazy<CameraManager> _instance =
