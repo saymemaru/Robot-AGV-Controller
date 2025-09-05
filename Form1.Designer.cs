@@ -43,6 +43,7 @@
             SaveRGBButton = new Button();
             HttpServerUrlBox = new TextBox();
             StartHttpServerButton = new Button();
+            RCSURLBox = new TextBox();
             SuspendLayout();
             // 
             // ServerIPBox
@@ -190,11 +191,20 @@
             StartHttpServerButton.UseVisualStyleBackColor = true;
             StartHttpServerButton.Click += StartHttpServerButton_Click;
             // 
+            // RCSURLBox
+            // 
+            RCSURLBox.Location = new Point(12, 70);
+            RCSURLBox.Name = "RCSURLBox";
+            RCSURLBox.Size = new Size(187, 23);
+            RCSURLBox.TabIndex = 16;
+            RCSURLBox.Text = "http://192.168.2.101:50060/";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(818, 512);
+            Controls.Add(RCSURLBox);
             Controls.Add(StartHttpServerButton);
             Controls.Add(HttpServerUrlBox);
             Controls.Add(SaveRGBButton);
@@ -233,5 +243,6 @@
         private Button SaveRGBButton;
         private TextBox HttpServerUrlBox;
         private Button StartHttpServerButton;
+        private TextBox RCSURLBox;
     }
 }

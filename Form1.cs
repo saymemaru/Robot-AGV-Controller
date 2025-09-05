@@ -8,6 +8,7 @@ namespace FR_TCP_Server
     public partial class Form1 : Form
     {
         private string httpServerUrl;
+        private string RCSUrl;
 
         private TcpServer server;
         private string serverIP;
@@ -232,12 +233,17 @@ namespace FR_TCP_Server
         {
             try
             {
-               await httpServer.Start(httpServerUrl);
+                await httpServer.Start(httpServerUrl);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"启动服务器失败: {ex.Message}");
             }
+        }
+
+        private void RCSURLBox_TextChanged(object sender, EventArgs e)
+        {
+            RCSUrl = RCSURLBox.Text;
         }
     }
 }
