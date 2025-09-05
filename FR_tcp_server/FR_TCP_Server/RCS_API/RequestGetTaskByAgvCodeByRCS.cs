@@ -14,16 +14,16 @@ namespace FR_TCP_Server.RCS_API
         public static string Name => "RequestGetTaskByAgvCodeByRCS";
         public static string APIpath => "Task/GetTaskByAgvCode";
         public static HttpMethod HttpMethod => HttpMethod.Post;
-        public static RequestGetTaskByAgvCode CreateRequest(
+        public static GetTaskByAgvCodeRequest CreateRequest(
             string agvCode)
         {
-            return new RequestGetTaskByAgvCode
+            return new GetTaskByAgvCodeRequest
             {
                 id = agvCode,
             };
         }
     }
-    internal class RequestGetTaskByAgvCode : APIRequest
+    internal class GetTaskByAgvCodeRequest : APIRequest
     {
         /// <summary>
         /// ⻋辆编码

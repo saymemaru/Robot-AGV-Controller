@@ -1,6 +1,11 @@
+using FR_TCP_Server.RCS_API;
+using Microsoft.VisualBasic.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
+using static FR_TCP_Server.HttpClientHelper;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace FR_TCP_Server
@@ -26,12 +31,15 @@ namespace FR_TCP_Server
         {
             InitializeComponent();
 
-            //http
+            //RCSUrl initial
+            RCSUrl = RCSURLBox.Text;
+
+            //httpserver address initial
             httpServer = new HttpServerHelper();
             httpServer.LogMessage += Server_LogMessage;
             httpServerUrl = HttpServerUrlBox.Text;
 
-            //tcp
+            //tcp address initial
             server = new TcpServer();
             server.LogMessage += Server_LogMessage;
             server.MessageReceived += Server_MessageReceived;
@@ -68,6 +76,13 @@ namespace FR_TCP_Server
                 LogBox.ScrollToCaret(); // 自动滚动到底部
             }
         }
+        //线程安全地追加时间轴日志
+        private bool Log(string logText)
+        {
+            AppendTextToLog($"[{DateTime.Now:HH:mm:ss}] {logText}" + Environment.NewLine);
+            return true;
+        }
+
 
         //日志文本框变化
         private void LogBox_TextChanged(object sender, EventArgs e)
@@ -244,6 +259,95 @@ namespace FR_TCP_Server
         private void RCSURLBox_TextChanged(object sender, EventArgs e)
         {
             RCSUrl = RCSURLBox.Text;
+        }
+
+        //待办（同时按测试按钮可能会冲突）
+        private void TestButton1_Click(object sender, EventArgs e)
+        {
+            //验证api地址
+            Log($"api地址: {RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath}");
+
+            _ = Task.Run(async () =>
+            {
+                //获取任务编码
+                RequestResult taskCodeResult =
+                await HttpClientHelper.Instance.ExecuteAsync(
+                    RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath,
+                    RequestGetTaskByAgvCodeByRCS.HttpMethod,
+                    JsonConvert.SerializeObject(RequestGetTaskByAgvCodeByRCS.
+                        CreateRequest(
+                            "1"))//agv编码
+                    );
+                if (taskCodeResult.Success == true)
+                {
+                    //接收到的是json字符串需要反序列化
+                    Log($"获得任务编码: {taskCodeResult.Content}");
+                }
+                else
+                {
+                    Log($"获取任务编码失败 Error: {taskCodeResult.Content}");
+                }
+
+                string? taskCode = JsonConvert.DeserializeObject<string>(taskCodeResult.Content);
+
+                //暂停任务
+                Log($"{JsonConvert.SerializeObject(RequestChangeTaskStateByTaskByRCS.CreateRequest("2", taskCode))}");
+
+                RequestResult pauseResult =
+                await HttpClientHelper.Instance.ExecuteAsync(
+                    RCSUrl + RequestChangeTaskStateByTaskByRCS.APIpath,
+                    RequestChangeTaskStateByTaskByRCS.HttpMethod,
+                    JsonConvert.SerializeObject(RequestChangeTaskStateByTaskByRCS.
+                        CreateRequest(
+                            "2", //地图编码
+                            taskCode))
+                    );
+
+                Log($"已暂停任务[{pauseResult.Content}]");
+
+            });
+
+        }
+
+        private void TestButton2_Click(object sender, EventArgs e)
+        {
+            //验证api地址
+            Log($"api地址: {RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath}");
+
+            _ = Task.Run(async () =>
+            {
+                //获取任务编码
+                RequestResult taskCodeResult =
+                await HttpClientHelper.Instance.ExecuteAsync(
+                    RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath,
+                    RequestGetTaskByAgvCodeByRCS.HttpMethod,
+                    JsonConvert.SerializeObject(RequestGetTaskByAgvCodeByRCS.
+                        CreateRequest(
+                            "1"))//agv编码
+                    );
+                if (taskCodeResult.Success == true)
+                {
+                    //接收到的是json字符串需要反序列化
+                    Log($"获得任务编码: {taskCodeResult.Content}");
+                }
+                else
+                {
+                    Log($"获取任务编码失败 Error: {taskCodeResult.Content}");
+                }
+
+                string? taskCode = JsonConvert.DeserializeObject<string>(taskCodeResult.Content);
+
+                RequestResult recoverResult = 
+                await HttpClientHelper.Instance.ExecuteAsync(
+                    RCSUrl + RequestRecoverAgvTaskByTaskByRCS.APIpath,
+                    RequestRecoverAgvTaskByTaskByRCS.HttpMethod,
+                    JsonConvert.SerializeObject(RequestRecoverAgvTaskByTaskByRCS.
+                        CreateRequest(
+                            "2", //地图编码
+                            taskCode))
+                    );
+                Log($"已恢复任务[{recoverResult.Content}]");
+            });
         }
     }
 }

@@ -14,11 +14,11 @@ namespace FR_TCP_Server.RCS_API
         public static string Name => "RequestChangeTaskStateByTaskByRCS";
         public static string APIpath => "Task/ChangeTaskStateByTask";
         public static HttpMethod HttpMethod => HttpMethod.Post;
-        public static RequestChangeTaskStateByTask CreateRequest(
+        public static ChangeTaskStateByTaskRequest CreateRequest(
             string mapCode,
             string taskCode)
         {
-            return new RequestChangeTaskStateByTask
+            return new ChangeTaskStateByTaskRequest
             {
                 TaskCode = taskCode,
                 MapCode = mapCode,
@@ -26,14 +26,14 @@ namespace FR_TCP_Server.RCS_API
         }
     }
 
-    internal class RequestChangeTaskStateByTask : APIRequest
+    internal class ChangeTaskStateByTaskRequest : APIRequest
     {
         /// <summary>
         /// 地图编码
         /// </summary>
         public string MapCode { get; set; }
         /// <summary>
-        /// 任务模板编码
+        /// 第三⽅系统发送的任务编码
         /// </summary>
         public string TaskCode { get; set; }
     }

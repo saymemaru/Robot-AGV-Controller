@@ -18,7 +18,7 @@ namespace FR_TCP_Server.RCS_API
         public static string APIpath => "Task/CreateTask";
         public static HttpMethod HttpMethod => HttpMethod.Post;
 
-        public static RequestCreateTask CreateRequest(
+        public static CreateTaskRequest CreateRequest(
             string receiveTaskID,
             string sysToken,
             string mapCode,
@@ -28,7 +28,7 @@ namespace FR_TCP_Server.RCS_API
             int priority = 5,
             List<Variables>? variables = null)
         {
-            return new RequestCreateTask
+            return new CreateTaskRequest
             {
                 SysToken = sysToken,
                 ReceiveTaskID = receiveTaskID,
@@ -41,7 +41,7 @@ namespace FR_TCP_Server.RCS_API
             };
         }
     }
-    internal class RequestCreateTask : APIRequest
+    internal class CreateTaskRequest : APIRequest
     {
         /// <summary>
         /// 系统token

@@ -44,6 +44,8 @@
             HttpServerUrlBox = new TextBox();
             StartHttpServerButton = new Button();
             RCSURLBox = new TextBox();
+            TestButton1 = new Button();
+            TestButton2 = new Button();
             SuspendLayout();
             // 
             // ServerIPBox
@@ -134,9 +136,9 @@
             // 
             // BoardcastButton
             // 
-            BoardcastButton.Location = new Point(729, 443);
+            BoardcastButton.Location = new Point(728, 443);
             BoardcastButton.Name = "BoardcastButton";
-            BoardcastButton.Size = new Size(74, 23);
+            BoardcastButton.Size = new Size(75, 23);
             BoardcastButton.TabIndex = 10;
             BoardcastButton.Text = "广播";
             BoardcastButton.UseVisualStyleBackColor = true;
@@ -199,11 +201,33 @@
             RCSURLBox.TabIndex = 16;
             RCSURLBox.Text = "http://192.168.2.101:50060/";
             // 
+            // TestButton1
+            // 
+            TestButton1.Location = new Point(728, 233);
+            TestButton1.Name = "TestButton1";
+            TestButton1.Size = new Size(75, 23);
+            TestButton1.TabIndex = 17;
+            TestButton1.Text = "Test暂停";
+            TestButton1.UseVisualStyleBackColor = true;
+            TestButton1.Click += TestButton1_Click;
+            // 
+            // TestButton2
+            // 
+            TestButton2.Location = new Point(728, 262);
+            TestButton2.Name = "TestButton2";
+            TestButton2.Size = new Size(75, 23);
+            TestButton2.TabIndex = 18;
+            TestButton2.Text = "Test恢复";
+            TestButton2.UseVisualStyleBackColor = true;
+            TestButton2.Click += TestButton2_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(818, 512);
+            Controls.Add(TestButton2);
+            Controls.Add(TestButton1);
             Controls.Add(RCSURLBox);
             Controls.Add(StartHttpServerButton);
             Controls.Add(HttpServerUrlBox);
@@ -244,5 +268,7 @@
         private TextBox HttpServerUrlBox;
         private Button StartHttpServerButton;
         private TextBox RCSURLBox;
+        private Button TestButton1;
+        private Button TestButton2;
     }
 }
