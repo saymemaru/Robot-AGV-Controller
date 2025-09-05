@@ -6,6 +6,18 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SqlSugar" Version="5.1.4.200" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DkamSDK_CSharp_Namespace">
+      <HintPath>bin\x64\Release\DkamSDK_CSharp_Namespace.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

@@ -1,8 +1,24 @@
 {
   "version": 2,
-  "dgSpecHash": "Y97dn5PcKXE=",
+  "dgSpecHash": "tgbGKv4NnCo=",
   "success": true,
-  "projectFilePath": "E:\\法奥手册与软件开发包\\FR_tcp_server\\FR_TCP_Server\\FR_TCP_Server.csproj",
-  "expectedPackageFiles": [],
-  "logs": []
+  "projectFilePath": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\FR_TCP_Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\OMEN\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\OMEN\\.nuget\\packages\\sqlsugar\\5.1.4.200\\sqlsugar.5.1.4.200.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "已使用“.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1”而不是项目目标框架“net8.0-windows7.0”还原包“SqlSugar 5.1.4.200”。此包可能与项目不完全兼容。",
+      "projectPath": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\FR_TCP_Server.csproj",
+      "warningLevel": 1,
+      "filePath": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\FR_TCP_Server.csproj",
+      "libraryId": "SqlSugar",
+      "targetGraphs": [
+        "net8.0-windows7.0"
+      ]
+    }
+  ]
 }
