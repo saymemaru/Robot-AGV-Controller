@@ -10,7 +10,7 @@ namespace FR_TCP_Server
 {
     public class HttpClientHelper
     {
-        private const int Time_Out_Second = 30;
+        private const int Time_Out_Second = 15;
 
         //单例client
         private static readonly Lazy<HttpClientHelper> _LazyInstance
@@ -28,8 +28,14 @@ namespace FR_TCP_Server
         // 请求结果类
         public class RequestResult
         {
+            /// <summary>
+            /// 请求通讯是否成功
+            /// </summary>
             public bool Success { get; set; }
 
+            /// <summary>
+            /// 序列化的响应内容
+            /// </summary>
             public string Content { get; set; }
 
             public RequestResult(bool success, string content = "")
@@ -72,7 +78,7 @@ namespace FR_TCP_Server
                         //待办（响应内容转换为其他格式，目前为字符串）
                         // 读取响应内容
                         string responseContent = await response.Content.ReadAsStringAsync();
-
+                        Log($"已收到请求返回值{responseContent}");
                         //JsonConvert.DeserializeObject(responseContent);
                         return new RequestResult(true, responseContent);
                     }
@@ -81,16 +87,20 @@ namespace FR_TCP_Server
             catch (HttpRequestException ex)
             {
                 Log($"HTTP请求失败: {ex.Message}");
+                return new RequestResult(false, ex.Message);
                 throw new Exception($"HTTP请求失败: {ex.Message}", ex);
+                
             }
             catch (TaskCanceledException ex)
             {
                 Log($"请求超时: {ex.Message}");
+                return new RequestResult(false, ex.Message);
                 throw new Exception($"请求超时: {ex.Message}", ex);
             }
             catch (Exception ex)
             {
                 Log($"请求处理失败: {ex.Message}");
+                return new RequestResult(false, ex.Message);
                 throw new Exception($"请求处理失败: {ex.Message}", ex);
             }
         }

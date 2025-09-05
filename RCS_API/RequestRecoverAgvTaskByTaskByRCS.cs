@@ -14,11 +14,11 @@ namespace FR_TCP_Server.RCS_API
         public static string Name => "RecoverAgvTaskByTaskByRCS";
         public static string APIpath => "Task/RecoverAgvTaskByTask";
         public static HttpMethod HttpMethod => HttpMethod.Post;
-        public static RequestRecoverAgvTaskByTask CreateRequest(
+        public static RecoverAgvTaskByTaskRequest CreateRequest(
             string mapCode,
             string taskCode)
         {
-            return new RequestRecoverAgvTaskByTask
+            return new RecoverAgvTaskByTaskRequest
             {
                 TaskCode = taskCode,
                 MapCode = mapCode,
@@ -26,7 +26,7 @@ namespace FR_TCP_Server.RCS_API
         }
     }
     
-    internal class RequestRecoverAgvTaskByTask : APIRequest
+    internal class RecoverAgvTaskByTaskRequest : APIRequest
     {
         /// <summary>
         /// 地图编码
