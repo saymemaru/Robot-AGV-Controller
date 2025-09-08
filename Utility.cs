@@ -56,5 +56,21 @@ namespace FR_TCP_Server
             // 返回路径（可选包含文件名）
             return string.IsNullOrEmpty(fileName) ? fullPath : Path.Combine(fullPath, fileName);
         }
+
+        public static void Log(string message,Action<string>? LogMessage)
+        {
+            if (LogMessage != null)
+            {
+                // 检查是否需要跨线程调用
+                if (LogMessage.Target is Control control && control.InvokeRequired)
+                {
+                    control.Invoke(new Action(() => LogMessage?.Invoke($"[{DateTime.Now:HH:mm:ss}] {message}")));
+                }
+                else
+                {
+                    LogMessage?.Invoke($"[{DateTime.Now:HH:mm:ss}] {message}");
+                }
+            }
+        }
     }
 }

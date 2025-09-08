@@ -36,6 +36,7 @@ namespace FR_TCP_Server
         // 存储注册命令字典
         private readonly ConcurrentDictionary<string, ICommandHandler> _commandHandlers =
             new(StringComparer.OrdinalIgnoreCase);
+        //指令起始字符
         private readonly char commandSymbol = '/';
 
         // 注册命令

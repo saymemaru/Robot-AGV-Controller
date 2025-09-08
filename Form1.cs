@@ -13,9 +13,9 @@ namespace FR_TCP_Server
     public partial class Form1 : Form
     {
         private string httpServerUrl;
-        private string RCSUrl;
+        //public string RCSUrl { get; private set; }
 
-        private TcpServer server;
+        public static TcpServer TCPServer { get; private set; } = new TcpServer();
         private string serverIP;
         private int serverPort;
 
@@ -32,7 +32,7 @@ namespace FR_TCP_Server
             InitializeComponent();
 
             //RCSUrl initial
-            RCSUrl = RCSURLBox.Text;
+            ConfigManager.Instance.RCSUrl = RCSURLBox.Text;
 
             //httpserver address initial
             httpServer = new HttpServerHelper();
@@ -40,9 +40,8 @@ namespace FR_TCP_Server
             httpServerUrl = HttpServerUrlBox.Text;
 
             //tcp address initial
-            server = new TcpServer();
-            server.LogMessage += Server_LogMessage;
-            server.MessageReceived += Server_MessageReceived;
+            TCPServer.LogMessage += Server_LogMessage;
+            TCPServer.MessageReceived += Server_MessageReceived;
 
             serverIP = ServerIPBox.Text;
             int.TryParse(ServerPortBox.Text, out serverPort);
@@ -95,7 +94,7 @@ namespace FR_TCP_Server
         {
             try
             {
-                server.Start(serverIP, serverPort);
+                TCPServer.StartAsync(serverIP, serverPort);
 
             }
             catch (Exception ex)
@@ -128,7 +127,7 @@ namespace FR_TCP_Server
         {
             try
             {
-                server.SendMessage(clientIP, clientPort, inputMessage);
+                TCPServer.SendMessage(clientIP, clientPort, inputMessage);
             }
             catch (Exception ex)
             {
@@ -164,7 +163,7 @@ namespace FR_TCP_Server
         //停止服务器
         private void StopServerButton_Click(object sender, EventArgs e)
         {
-            server.Stop();
+            TCPServer.Stop();
         }
 
         //广播
@@ -179,14 +178,19 @@ namespace FR_TCP_Server
             //不是命令
             if (!TextInputBox.Text.StartsWith("/"))
             {
-                server.BroadcastMessage(TextInputBox.Text);
+                TCPServer.BroadcastMessage(TextInputBox.Text);
                 TextInputBox.Clear();
                 return;
             }
             //是命令
             // 先在UI线程读取文本
             string commandText = TextInputBox.Text;
-            ThreadPool.QueueUserWorkItem(_ => server.ExecuteServerCommand(commandText));
+            _ = Task.Run(() =>
+            {
+                // 在后台线程处理命令
+                TCPServer.ExecuteServerCommand(commandText);
+            });
+            //ThreadPool.QueueUserWorkItem(_ => TCPServer.ExecuteServerCommand(commandText));
             TextInputBox.Clear();
         }
 
@@ -258,21 +262,21 @@ namespace FR_TCP_Server
 
         private void RCSURLBox_TextChanged(object sender, EventArgs e)
         {
-            RCSUrl = RCSURLBox.Text;
+            ConfigManager.Instance.RCSUrl = RCSURLBox.Text;
         }
 
         //待办（同时按测试按钮可能会冲突）
         private void TestButton1_Click(object sender, EventArgs e)
         {
             //验证api地址
-            Log($"api地址: {RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath}");
+            Log($"api地址: {ConfigManager.Instance.RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath}");
 
             _ = Task.Run(async () =>
             {
                 //获取任务编码
                 RequestResult taskCodeResult =
                 await HttpClientHelper.Instance.ExecuteAsync(
-                    RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath,
+                    ConfigManager.Instance.RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath,
                     RequestGetTaskByAgvCodeByRCS.HttpMethod,
                     JsonConvert.SerializeObject(RequestGetTaskByAgvCodeByRCS.
                         CreateRequest(
@@ -295,7 +299,7 @@ namespace FR_TCP_Server
 
                 RequestResult pauseResult =
                 await HttpClientHelper.Instance.ExecuteAsync(
-                    RCSUrl + RequestChangeTaskStateByTaskByRCS.APIpath,
+                    ConfigManager.Instance.RCSUrl + RequestChangeTaskStateByTaskByRCS.APIpath,
                     RequestChangeTaskStateByTaskByRCS.HttpMethod,
                     JsonConvert.SerializeObject(RequestChangeTaskStateByTaskByRCS.
                         CreateRequest(
@@ -312,14 +316,14 @@ namespace FR_TCP_Server
         private void TestButton2_Click(object sender, EventArgs e)
         {
             //验证api地址
-            Log($"api地址: {RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath}");
+            Log($"api地址: {ConfigManager.Instance.RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath}");
 
             _ = Task.Run(async () =>
             {
                 //获取任务编码
                 RequestResult taskCodeResult =
                 await HttpClientHelper.Instance.ExecuteAsync(
-                    RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath,
+                    ConfigManager.Instance.RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath,
                     RequestGetTaskByAgvCodeByRCS.HttpMethod,
                     JsonConvert.SerializeObject(RequestGetTaskByAgvCodeByRCS.
                         CreateRequest(
@@ -339,7 +343,7 @@ namespace FR_TCP_Server
 
                 RequestResult recoverResult = 
                 await HttpClientHelper.Instance.ExecuteAsync(
-                    RCSUrl + RequestRecoverAgvTaskByTaskByRCS.APIpath,
+                    ConfigManager.Instance.RCSUrl + RequestRecoverAgvTaskByTaskByRCS.APIpath,
                     RequestRecoverAgvTaskByTaskByRCS.HttpMethod,
                     JsonConvert.SerializeObject(RequestRecoverAgvTaskByTaskByRCS.
                         CreateRequest(

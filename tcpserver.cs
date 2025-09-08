@@ -19,6 +19,7 @@ namespace FR_TCP_Server
         public string ServerIp { get; private set; }
         public int ServerPort { get; private set; }
 
+        //命令系统
         private readonly CommandSystem _commandSystem = new CommandSystem();
         internal Dictionary<IPEndPoint, DateTime> _lastCommandTime = new Dictionary<IPEndPoint, DateTime>();
         public int CommandCooldownSeconds { get;private set; } = 1; // 命令冷却时间(秒)
@@ -56,6 +57,7 @@ namespace FR_TCP_Server
             _isRunning = true;
 
             Log($"服务器已启动 {ip}:{port}");
+            _ = Task.Run(() => AcceptClients(null));
             ThreadPool.QueueUserWorkItem(AcceptClients);
         }
 
