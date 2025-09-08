@@ -127,7 +127,7 @@ namespace FR_TCP_Server
         {
             try
             {
-                TCPServer.SendMessage(clientIP, clientPort, inputMessage);
+                TCPServer.SendMessageAsync(clientIP, clientPort, inputMessage);
             }
             catch (Exception ex)
             {
@@ -178,18 +178,21 @@ namespace FR_TCP_Server
             //不是命令
             if (!TextInputBox.Text.StartsWith("/"))
             {
-                TCPServer.BroadcastMessage(TextInputBox.Text);
+                TCPServer.BroadcastMessageAsync(TextInputBox.Text);
                 TextInputBox.Clear();
                 return;
             }
             //是命令
+
             // 先在UI线程读取文本
             string commandText = TextInputBox.Text;
-            _ = Task.Run(() =>
+
+            // 在后台线程处理命令
+            _ = Task.Run(async () =>
             {
-                // 在后台线程处理命令
-                TCPServer.ExecuteServerCommand(commandText);
+                await TCPServer.ExecuteServerCommandAsync(commandText);
             });
+
             //ThreadPool.QueueUserWorkItem(_ => TCPServer.ExecuteServerCommand(commandText));
             TextInputBox.Clear();
         }
