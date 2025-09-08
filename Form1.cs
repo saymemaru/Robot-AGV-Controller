@@ -94,7 +94,7 @@ namespace FR_TCP_Server
         {
             try
             {
-                TCPServer.StartAsync(serverIP, serverPort);
+                TCPServer.Start(serverIP, serverPort);
 
             }
             catch (Exception ex)
