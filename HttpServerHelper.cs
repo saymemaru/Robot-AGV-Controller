@@ -38,6 +38,7 @@ namespace FR_TCP_Server
                 ["/api/data"] = async (req, res) => await HandleDataRequest(req, res),
                 ["/POST"] = async (req, res) => await HandlePostRequest(req, res),
                 ["/api/pause"] = async (req, res) => await HandlePauseRequest(req, res),
+                ["/api/work"] = async (req, res) => await HandleRobotRequest(req, res),
                 // 其他接口...
             };
         }
@@ -307,6 +308,7 @@ namespace FR_TCP_Server
             await SendResponse(response, HttpStatusCode.OK, responseData);
         }
 
+        //待办（agvcode,mapcode魔法数）
         //处理暂停请求（暂停当前车任务）
         // api/pause
         private async Task HandlePauseRequest(HttpListenerRequest request, HttpListenerResponse response)
@@ -359,9 +361,16 @@ namespace FR_TCP_Server
             await SendResponse(response, HttpStatusCode.OK, responseData);
         }
 
+
+        /// <summary>
+        /// 向所有客户端广播，机器人work指令
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
         private async Task HandleRobotRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
-            //await Form1.TCPServer.BroadcastMessage("/move");
+            await Form1.TCPServer.BroadcastMessageAsync("work");
         }
     }
 }

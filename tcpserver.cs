@@ -37,6 +37,7 @@ namespace FR_TCP_Server
             _commandSystem.RegisterCommand(new ListClientsCommand());
             _commandSystem.RegisterCommand(new HelpCommand(_commandSystem));
             _commandSystem.RegisterCommand(new WhisperCommand());
+            _commandSystem.RegisterCommand(new RecoverAGVCommand());
         }
 
         // 启动服务器
@@ -140,6 +141,8 @@ namespace FR_TCP_Server
                         else
                         {
                             await _commandSystem.ProcessMessageAsync(message, clientEndPoint, this);
+                            MessageReceived?.Invoke(message, clientEndPoint);
+                            Log($"来自 {clientInfo} 的命令: {message}");
                         }
                     }
                 }
@@ -375,14 +378,14 @@ namespace FR_TCP_Server
         {
             lock (_clientsLock)
             {
-                var result = new List<IPEndPoint>();
+                List<IPEndPoint>? result = new List<IPEndPoint>();
                 foreach (var client in _connectedClients)
                 {
                     try
                     {
                         if (client.Connected)
                         {
-                            var endPoint = (IPEndPoint)client.Client.RemoteEndPoint;
+                            IPEndPoint? endPoint = (IPEndPoint)client.Client.RemoteEndPoint;
                             result.Add(endPoint);
                         }
                     }
