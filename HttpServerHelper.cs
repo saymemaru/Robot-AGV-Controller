@@ -313,6 +313,17 @@ namespace FR_TCP_Server
         // api/pause
         private async Task HandlePauseRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
+            var responseData = new
+            {
+                message = "暂停接口响应",
+                //timestamp = DateTime.Now,
+                name = "哈基咪",
+            };
+
+            // 发送响应
+            await SendResponse(response, HttpStatusCode.OK, responseData);
+
+
             string RCSUrl = ConfigManager.Instance.RCSUrl;
             //获取任务编码
             RequestResult taskCodeResult =
@@ -351,14 +362,7 @@ namespace FR_TCP_Server
             Log($"已暂停任务[{pauseResult.Content}]");
 
             //响应信息
-            var responseData = new
-            {
-                message = "暂停接口响应",
-                //timestamp = DateTime.Now,
-            };
 
-            // 发送响应
-            await SendResponse(response, HttpStatusCode.OK, responseData);
         }
 
 
@@ -370,7 +374,18 @@ namespace FR_TCP_Server
         /// <returns></returns>
         private async Task HandleRobotRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
+            var responseData = new
+            {
+                message = "机械臂正在工作",
+                //timestamp = DateTime.Now,
+                name = "哈基咪",
+            };
+            // 发送响应
+            await SendResponse(response, HttpStatusCode.OK, responseData);
+
+
             await Form1.TCPServer.BroadcastMessageAsync("work");
+
         }
     }
 }
