@@ -3,72 +3,80 @@
   "WorkspaceRootPath": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\camera\\savefile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:camera\\savefile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\rcs_api\\requestgettaskbyagvcodebyrcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:rcs_api\\requestgettaskbyagvcodebyrcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\camera\\geminicamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:camera\\geminicamera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\commandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:commandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\httpclienthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:httpclienthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\rcs_api\\requestgettaskbyagvcodebyrcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:rcs_api\\requestgettaskbyagvcodebyrcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\httpapihandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:httpapihandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\rcs_api\\requestrecoveragvtaskbytaskbyrcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:rcs_api\\requestrecoveragvtaskbytaskbyrcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\rcs_api\\requestcreatetaskbyrcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:rcs_api\\requestcreatetaskbyrcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\rcs_api\\requestchangetaskstatebytaskbyrcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:rcs_api\\requestchangetaskstatebytaskbyrcs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\agvinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:agvinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\configmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:configmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\utility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:utility.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\rcsapihandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:rcsapihandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\cameramanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:cameramanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\agvinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:agvinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\tcpserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:tcpserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\httpserverhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:httpserverhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\.gitattributes||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:.gitattributes||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\fr_tcp_server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:fr_tcp_server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\cameramanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:cameramanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\httpserverhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:httpserverhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\httpapihandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:httpapihandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\httpclienthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:httpclienthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|e:\\work\\futureray\\fr_robot\\git\\fr_tcp_server\\fr_tcp_server\\.gitattributes||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{38371921-0D50-458A-A8D4-8FEE6FA2DB6A}|FR_TCP_Server.csproj|solutionrelative:.gitattributes||{3B902123-F8A7-4915-9F01-361F908088D0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -78,8 +86,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 6,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -93,99 +105,175 @@
               "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "RequestRecoverAgvTaskByTaskByRCS.cs",
-              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RCS_API\\RequestRecoverAgvTaskByTaskByRCS.cs",
-              "RelativeDocumentMoniker": "RCS_API\\RequestRecoverAgvTaskByTaskByRCS.cs",
-              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RCS_API\\RequestRecoverAgvTaskByTaskByRCS.cs",
-              "RelativeToolTip": "RCS_API\\RequestRecoverAgvTaskByTaskByRCS.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAywBkAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T09:29:31.826Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+              "Name": "ST:0:0:{dcc4ea97-1c0c-482b-b205-e541c0df9728}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "RequestGetTaskByAgvCodeByRCS.cs",
-              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RCS_API\\RequestGetTaskByAgvCodeByRCS.cs",
-              "RelativeDocumentMoniker": "RCS_API\\RequestGetTaskByAgvCodeByRCS.cs",
-              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RCS_API\\RequestGetTaskByAgvCodeByRCS.cs",
-              "RelativeToolTip": "RCS_API\\RequestGetTaskByAgvCodeByRCS.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAFAAAAAAAAAA==",
+              "Title": "GeminiCamera.cs",
+              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Camera\\GeminiCamera.cs",
+              "RelativeDocumentMoniker": "Camera\\GeminiCamera.cs",
+              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Camera\\GeminiCamera.cs*",
+              "RelativeToolTip": "Camera\\GeminiCamera.cs*",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAwwJIAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T07:14:44.123Z",
+              "WhenOpened": "2025-09-18T07:01:16.32Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "RequestChangeTaskStateByTaskByRCS.cs",
-              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RCS_API\\RequestChangeTaskStateByTaskByRCS.cs",
-              "RelativeDocumentMoniker": "RCS_API\\RequestChangeTaskStateByTaskByRCS.cs",
-              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RCS_API\\RequestChangeTaskStateByTaskByRCS.cs",
-              "RelativeToolTip": "RCS_API\\RequestChangeTaskStateByTaskByRCS.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAwwCUAAAAsAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "SaveFile.cs",
+              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Camera\\SaveFile.cs",
+              "RelativeDocumentMoniker": "Camera\\SaveFile.cs",
+              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Camera\\SaveFile.cs*",
+              "RelativeToolTip": "Camera\\SaveFile.cs*",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAQwGMAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T06:38:25.428Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "RequestCreateTaskByRCS.cs",
-              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RCS_API\\RequestCreateTaskByRCS.cs",
-              "RelativeDocumentMoniker": "RCS_API\\RequestCreateTaskByRCS.cs",
-              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RCS_API\\RequestCreateTaskByRCS.cs",
-              "RelativeToolTip": "RCS_API\\RequestCreateTaskByRCS.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAQwCsAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T00:55:57.03Z",
+              "WhenOpened": "2025-09-18T07:00:14.691Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Form1.Designer.cs",
+              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Form1.Designer.cs",
+              "RelativeDocumentMoniker": "Form1.Designer.cs",
+              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Form1.Designer.cs",
+              "RelativeToolTip": "Form1.Designer.cs",
+              "ViewState": "AgIAAH8AAAAAAAAAAAAvwI4AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T09:58:06.761Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RequestGetTaskByAgvCodeByRCS.cs",
+              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RCS_API\\RequestGetTaskByAgvCodeByRCS.cs",
+              "RelativeDocumentMoniker": "RCS_API\\RequestGetTaskByAgvCodeByRCS.cs",
+              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RCS_API\\RequestGetTaskByAgvCodeByRCS.cs",
+              "RelativeToolTip": "RCS_API\\RequestGetTaskByAgvCodeByRCS.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T02:44:24.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "CommandHandler.cs",
               "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\CommandHandler.cs",
               "RelativeDocumentMoniker": "CommandHandler.cs",
               "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\CommandHandler.cs",
               "RelativeToolTip": "CommandHandler.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAA3wBcAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAEQBAAAAAAAAAAAYwFUBAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-23T03:22:53.911Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "HttpClientHelper.cs",
-              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\HttpClientHelper.cs",
-              "RelativeDocumentMoniker": "HttpClientHelper.cs",
-              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\HttpClientHelper.cs",
-              "RelativeToolTip": "HttpClientHelper.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAwAAAAvAAAAAAAAAA==",
+              "DocumentIndex": 15,
+              "Title": "HttpAPIHandler.cs",
+              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\HttpAPIHandler.cs",
+              "RelativeDocumentMoniker": "HttpAPIHandler.cs",
+              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\HttpAPIHandler.cs",
+              "RelativeToolTip": "HttpAPIHandler.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAAA4wEkAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-03T11:11:10.23Z",
+              "WhenOpened": "2025-09-03T12:35:31.809Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ConfigManager.cs",
+              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\ConfigManager.cs",
+              "RelativeDocumentMoniker": "ConfigManager.cs",
+              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\ConfigManager.cs",
+              "RelativeToolTip": "ConfigManager.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABoAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T03:54:32.171Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 16,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Form1.cs",
+              "RelativeDocumentMoniker": "Form1.cs",
+              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Form1.cs",
+              "RelativeToolTip": "Form1.cs",
+              "ViewState": "AgIAAEwBAAAAAAAAAAAswGABAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T01:37:37.94Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Utility.cs",
+              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Utility.cs",
+              "RelativeDocumentMoniker": "Utility.cs",
+              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Utility.cs",
+              "RelativeToolTip": "Utility.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAcwD8AAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T02:25:31.392Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RcsApiHandler.cs",
+              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RcsApiHandler.cs",
+              "RelativeDocumentMoniker": "RcsApiHandler.cs",
+              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\RcsApiHandler.cs",
+              "RelativeToolTip": "RcsApiHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-18T07:56:55.856Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "TcpServer.cs",
+              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\TcpServer.cs",
+              "RelativeDocumentMoniker": "TcpServer.cs",
+              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\TcpServer.cs",
+              "RelativeToolTip": "TcpServer.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAADwvwUAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-08T01:56:11.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "HttpServerHelper.cs",
               "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\HttpServerHelper.cs",
               "RelativeDocumentMoniker": "HttpServerHelper.cs",
               "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\HttpServerHelper.cs",
               "RelativeToolTip": "HttpServerHelper.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAnwEYAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAADEBAAAAAAAAAAAAwD0BAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-01T01:53:20.909Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "HttpClientHelper.cs",
+              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\HttpClientHelper.cs",
+              "RelativeDocumentMoniker": "HttpClientHelper.cs",
+              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\HttpClientHelper.cs",
+              "RelativeToolTip": "HttpClientHelper.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAADwvzIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-03T11:11:10.23Z"
             },
             {
               "$type": "Document",
@@ -195,40 +283,14 @@
               "RelativeDocumentMoniker": "AGVInfo.cs",
               "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\AGVInfo.cs",
               "RelativeToolTip": "AGVInfo.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA0AAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-04T09:39:29.218Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "HttpAPIHandler.cs",
-              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\HttpAPIHandler.cs",
-              "RelativeDocumentMoniker": "HttpAPIHandler.cs",
-              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\HttpAPIHandler.cs",
-              "RelativeToolTip": "HttpAPIHandler.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-03T12:35:31.809Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Form1.cs",
-              "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Form1.cs",
-              "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAADMBAAAAAAAAAADwv1kBAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T01:37:37.94Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 12,
               "Title": "Form1.cs [\u8BBE\u8BA1]",
               "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
@@ -240,45 +302,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 8,
               "Title": "CameraManager.cs",
               "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\CameraManager.cs",
               "RelativeDocumentMoniker": "CameraManager.cs",
               "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\CameraManager.cs",
               "RelativeToolTip": "CameraManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAIYBAAAAAAAAAAAAAAYAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-23T06:51:55.402Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Utility.cs",
-              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Utility.cs",
-              "RelativeDocumentMoniker": "Utility.cs",
-              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Utility.cs",
-              "RelativeToolTip": "Utility.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-26T02:25:31.392Z",
+              "WhenOpened": "2025-08-23T06:51:55.402Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "tcpserver.cs",
-              "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\tcpserver.cs",
-              "RelativeDocumentMoniker": "tcpserver.cs",
-              "ToolTip": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\tcpserver.cs",
-              "RelativeToolTip": "tcpserver.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-19T01:35:43.967Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -286,11 +323,12 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-02T01:45:43.882Z"
+              "WhenOpened": "2025-09-02T01:45:43.882Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 13,
               "Title": "FR_TCP_Server.csproj",
               "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\FR_TCP_Server.csproj",
               "RelativeDocumentMoniker": "FR_TCP_Server.csproj",
@@ -298,11 +336,12 @@
               "RelativeToolTip": "FR_TCP_Server.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-02T03:01:08.139Z"
+              "WhenOpened": "2025-09-02T03:01:08.139Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": ".gitattributes",
               "DocumentMoniker": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\.gitattributes",
               "RelativeDocumentMoniker": ".gitattributes",

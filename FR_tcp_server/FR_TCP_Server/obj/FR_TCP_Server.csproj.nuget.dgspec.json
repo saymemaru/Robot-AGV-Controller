@@ -13,12 +13,8 @@
         "packagesPath": "C:\\Users\\OMEN\\.nuget\\packages\\",
         "outputPath": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "F:\\app\\visual studio\\tools\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\OMEN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -50,6 +46,10 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "dependencies": {
+            "BitMiracle.LibTiff.NET": {
+              "target": "Package",
+              "version": "[2.4.660, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"

@@ -19,6 +19,7 @@ namespace FR_TCP_Server
         public string ServerIp { get; private set; }
         public int ServerPort { get; private set; }
 
+        //命令系统
         private readonly CommandSystem _commandSystem = new CommandSystem();
         internal Dictionary<IPEndPoint, DateTime> _lastCommandTime = new Dictionary<IPEndPoint, DateTime>();
         public int CommandCooldownSeconds { get;private set; } = 1; // 命令冷却时间(秒)
@@ -36,6 +37,8 @@ namespace FR_TCP_Server
             _commandSystem.RegisterCommand(new ListClientsCommand());
             _commandSystem.RegisterCommand(new HelpCommand(_commandSystem));
             _commandSystem.RegisterCommand(new WhisperCommand());
+            _commandSystem.RegisterCommand(new RecoverAGVCommand());
+            _commandSystem.RegisterCommand(new SnapCommand());
         }
 
         // 启动服务器
@@ -56,7 +59,8 @@ namespace FR_TCP_Server
             _isRunning = true;
 
             Log($"服务器已启动 {ip}:{port}");
-            ThreadPool.QueueUserWorkItem(AcceptClients);
+            _ = Task.Run(() => AcceptClients(null));
+            //ThreadPool.QueueUserWorkItem(AcceptClients);
         }
 
         // 停止服务器
@@ -85,14 +89,14 @@ namespace FR_TCP_Server
         }
 
         // 接受客户端连接
-        private void AcceptClients(object state)
+        private async Task AcceptClients(object? state)
         {
             try
             {
                 while (_isRunning)
                 {
-                    TcpClient client = _listener.AcceptTcpClient();
-                    ThreadPool.QueueUserWorkItem(HandleClient, client);
+                    TcpClient client = await _listener.AcceptTcpClientAsync();
+                    _ = Task.Run(() => HandleClientAsync(client));
                 }
             }
             catch (Exception ex)
@@ -102,7 +106,7 @@ namespace FR_TCP_Server
         }
 
         // 处理客户端通信
-        private void HandleClient(object state)
+        private async Task HandleClientAsync(object state)
         {
             TcpClient client = (TcpClient)state;
             IPEndPoint clientEndPoint = (IPEndPoint)client.Client.RemoteEndPoint;
@@ -119,6 +123,47 @@ namespace FR_TCP_Server
             try
             {
                 using (NetworkStream stream = client.GetStream())
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    while (_isRunning && client.Connected)
+                    {
+                        //只读取一行，防止粘包
+                        string? message = await reader.ReadLineAsync();
+                        if (message == null)
+                            break;
+
+                        // 检查是否是命令并处理
+                        
+                        if (!_commandSystem.IsStartWithCommandSymbol(message))
+                        {
+                            MessageReceived?.Invoke(message, clientEndPoint);
+                            Log($"来自 {clientInfo} 的消息: {message}");
+                        }
+                        else
+                        {
+                            await _commandSystem.ProcessMessageAsync(message, clientEndPoint, this);
+                            MessageReceived?.Invoke(message, clientEndPoint);
+                            Log($"来自 {clientInfo} 的命令: {message}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log($"处理客户端错误 ({clientInfo}): {ex.Message}");
+            }
+            finally
+            {
+                lock (_clientsLock)
+                {
+                    _connectedClients.Remove(client);
+                }
+                client.Close();
+                Log($"客户端断开: {clientInfo} (当前连接数: {_connectedClients.Count})");
+            }
+            /*try
+            {
+                using (NetworkStream stream = client.GetStream())
                 {
                     byte[] buffer = new byte[1024];
                     while (_isRunning && client.Connected)
@@ -126,19 +171,21 @@ namespace FR_TCP_Server
                         if (stream.DataAvailable)
                         {
                             int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                            if (bytesRead == 0) break;
+                            if (bytesRead == 0) 
+                                break;
 
                             string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-
                             // 检查是否是命令并处理
-                            if (!_commandSystem.ProcessMessage(message, clientEndPoint, this).Success)
+                             CommandResult commandResult = await _commandSystem.ProcessMessageAsync(message, clientEndPoint, this);
+                            if (!commandResult.Success)
                             {
                                 // 如果不是命令，触发普通消息事件
                                 MessageReceived?.Invoke(message, clientEndPoint);
                                 Log($"来自 {clientInfo} 的消息: {message}");
                             }
                         }
-                        Thread.Sleep(10);
+                        await Task.Delay(10);
+                        //Thread.Sleep(10);
                     }
                 }
             }
@@ -155,11 +202,11 @@ namespace FR_TCP_Server
                 }
                 client.Close();
                 Log($"客户端断开: {clientInfo} (当前连接数: {_connectedClients.Count})");
-            }
+            }*/
         }
 
         //向所有客户端广播
-        public void BroadcastMessage(string message)
+        public async Task BroadcastMessageAsync(string message)
         {
             List<TcpClient> clientsToSend;
 
@@ -185,13 +232,13 @@ namespace FR_TCP_Server
                     if (client.Connected)
                     {
                         NetworkStream stream = client.GetStream();
-                        stream.Write(data, 0, data.Length);
+                        await stream.WriteAsync(data, 0, data.Length);
                         successCount++;
                     }
                 }
                 catch (Exception ex)
                 {
-                    Log($"向客户端发送广播失败: {ex.Message}");
+                    Log($"广播失败: {ex.Message}");
                 }
             }
 
@@ -222,7 +269,7 @@ namespace FR_TCP_Server
                 Log($"发送消息错误: {ex.Message}");
             }
         }
-        public void SendMessage(IPAddress ip, int port, string message)
+        public async Task SendMessageAsync(IPAddress ip, int port, string message)
         {
             //向自身发送的消息不处理
             if (ip.Equals(IPAddress.Loopback))
@@ -231,12 +278,29 @@ namespace FR_TCP_Server
             }
             try
             {
-                using (TcpClient client = new TcpClient())
+                TcpClient? client = null;
+                lock (_clientsLock)
                 {
-                    client.Connect(ip, port);
+                    client = _connectedClients.FirstOrDefault(c =>
+                    {
+                        var remote = c.Client.RemoteEndPoint as IPEndPoint;
+                        return remote != null && remote.Address.Equals(ip);
+                    });
+                }
+                //为连接设置五秒超时
+                /*using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+                {
+                    await client.ConnectAsync(ip, port, cts.Token);
+                }*/
+                if (client.Connected && client != null)
+                {
                     byte[] data = Encoding.UTF8.GetBytes(message);
-                    client.GetStream().Write(data, 0, data.Length);
+                    await client.GetStream().WriteAsync(data);
                     Log($"已发送消息到 {ip}:{port}：{message}");
+                }
+                else
+                {
+                    Log($"无法连接到 {ip}:{port}，客户端未连接");
                 }
             }
             catch (Exception ex)
@@ -261,13 +325,13 @@ namespace FR_TCP_Server
             }
         }
 
-        public void ExecuteServerCommand(string commandText)
+        public async Task ExecuteServerCommandAsync(string commandText)
         {
             try
             {
                 // 创建一个虚拟的发送者（代表服务器自身）
                 IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 0);
-                CommandResult commandResult = _commandSystem.ProcessMessage(commandText, serverEndPoint, this);
+                CommandResult commandResult = await _commandSystem.ProcessMessageAsync(commandText, serverEndPoint, this);
                 // 处理指令
                 if (commandResult.Success)
                 {
@@ -315,14 +379,14 @@ namespace FR_TCP_Server
         {
             lock (_clientsLock)
             {
-                var result = new List<IPEndPoint>();
+                List<IPEndPoint>? result = new List<IPEndPoint>();
                 foreach (var client in _connectedClients)
                 {
                     try
                     {
                         if (client.Connected)
                         {
-                            var endPoint = (IPEndPoint)client.Client.RemoteEndPoint;
+                            IPEndPoint? endPoint = (IPEndPoint)client.Client.RemoteEndPoint;
                             result.Add(endPoint);
                         }
                     }

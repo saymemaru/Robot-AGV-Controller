@@ -1,10 +1,15 @@
-﻿using System;
+﻿using FR_TCP_Server.RCS_API;
+using Gemini335;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static FR_TCP_Server.HttpClientHelper;
 
 namespace FR_TCP_Server
 {
@@ -13,7 +18,7 @@ namespace FR_TCP_Server
     {
         string CommandName { get; }
         string Description { get; }
-        CommandResult Execute(string[] args, IPEndPoint sender, TcpServer server);
+        Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server);
 
     }
 
@@ -36,6 +41,7 @@ namespace FR_TCP_Server
         // 存储注册命令字典
         private readonly ConcurrentDictionary<string, ICommandHandler> _commandHandlers =
             new(StringComparer.OrdinalIgnoreCase);
+        //指令起始字符
         private readonly char commandSymbol = '/';
 
         // 注册命令
@@ -46,13 +52,23 @@ namespace FR_TCP_Server
             _commandHandlers[handler.CommandName] = handler;
         }
 
-        // 处理指令
-        public CommandResult ProcessMessage(string message, IPEndPoint sender, TcpServer server)
+        //判断起始符
+        public bool IsStartWithCommandSymbol(string message)
         {
-            // 检查是否以斜杠开头 (例如: /command arg1 arg2)
             if (!message.StartsWith(commandSymbol))
             {
-                server.SendMessage(sender.Address, sender.Port, "不是有效的命令格式，请以斜杠开头");
+                return false;
+            }
+            return true;
+        }
+
+        // 处理指令
+        public async Task<CommandResult> ProcessMessageAsync(string message, IPEndPoint sender, TcpServer server)
+        {
+            // 检查是否以斜杠开头 (例如: /command arg1 arg2)
+            if (!IsStartWithCommandSymbol(message))
+            {
+                await server.SendMessageAsync(sender.Address, sender.Port, "不是有效的命令格式，请以斜杠开头");
                 return new CommandResult(false, "不是有效的命令格式，请以斜杠开头");
             }
 
@@ -64,7 +80,7 @@ namespace FR_TCP_Server
             {
                 if ((now - lastTime).TotalSeconds < cooldownSeconds)
                 {
-                    server.SendMessage(sender.Address, sender.Port, $"命令冷却中，请稍后再试（{cooldownSeconds}秒）");
+                    await server.SendMessageAsync(sender.Address, sender.Port, $"命令冷却中，请稍后再试（{cooldownSeconds}秒）");
                     return new CommandResult(true, $"命令冷却中，请稍后再试（{cooldownSeconds}秒）");
                 }
             }
@@ -73,7 +89,7 @@ namespace FR_TCP_Server
             var parts = message.Substring(1).Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length == 0)
             {
-                server.SendMessage(sender.Address, sender.Port, "不是有效的命令格式，请填入参数");
+                await server.SendMessageAsync(sender.Address, sender.Port, "不是有效的命令格式，请填入参数");
                 return new CommandResult(false, "不是有效的命令格式，请填入参数");
             }
 
@@ -87,12 +103,12 @@ namespace FR_TCP_Server
             {
                 // 更新最后命令时间
                 server._lastCommandTime[sender] = DateTime.Now;
-
-                return handler.Execute(args, sender, server);
+                CommandResult commandResult = await handler.ExecuteAsync(args, sender, server);
+                return commandResult;
             }
 
             // 命令未找到
-            server.SendMessage(sender.Address, sender.Port, $"未知命令: {commandName}");
+            await server.SendMessageAsync(sender.Address, sender.Port, $"未知命令: {commandName}");
             return new CommandResult(false, $"未知命令: {commandName}");
         }
 
@@ -112,16 +128,16 @@ namespace FR_TCP_Server
         public string CommandName => "broadcast";
         public string Description => "向所有客户端广播消息";
 
-        public CommandResult Execute(string[] args, IPEndPoint sender, TcpServer server)
+        public async Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server)
         {
             if (args.Length == 0)
             {
-                server.SendMessage(sender.Address, sender.Port, "用法: /broadcast <消息>");
+                await server.SendMessageAsync(sender.Address, sender.Port, "用法: /broadcast <消息>");
                 return new CommandResult(false, "用法: /broadcast <消息>");
             }
 
             string message = string.Join(" ", args);
-            server.BroadcastMessage($"[广播] {sender.Address} 说: {message}");
+            await server.BroadcastMessageAsync($"[广播] {sender.Address} 说: {message}");
             return new CommandResult(true, $"{sender.Address} [广播] {message}");
         }
     }
@@ -132,9 +148,9 @@ namespace FR_TCP_Server
         public string CommandName => "time";
         public string Description => "获取服务器当前时间";
 
-        public CommandResult Execute(string[] args, IPEndPoint sender, TcpServer server)
+        public async Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server)
         {
-            server.SendMessage(sender.Address, sender.Port,
+            await server.SendMessageAsync(sender.Address, sender.Port,
                 $"服务器时间: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
             return new CommandResult(true, $"服务器时间: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
         }
@@ -146,14 +162,14 @@ namespace FR_TCP_Server
         public string CommandName => "clients";
         public string Description => "列出所有在线客户端";
 
-        public CommandResult Execute(string[] args, IPEndPoint sender, TcpServer server)
+        public async Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server)
         {
             // 注意: 这里需要修改TcpServer以提供获取客户端列表的方法
             var clients = server.GetConnectedClientsAddresses();
 
             if (clients.Count == 0)
             {
-                server.SendMessage(sender.Address, sender.Port, "没有客户端在线");
+                await server.SendMessageAsync(sender.Address, sender.Port, "没有客户端在线");
                 return new CommandResult(false, "没有客户端在线");
             }
 
@@ -163,7 +179,7 @@ namespace FR_TCP_Server
                 response += $"- {client}\n";
             }
 
-            server.SendMessage(sender.Address, sender.Port, response);
+            await server.SendMessageAsync(sender.Address, sender.Port, response);
             return new CommandResult(true, response);
         }
     }
@@ -181,7 +197,7 @@ namespace FR_TCP_Server
         public string CommandName => "help";
         public string Description => "显示可用命令";
 
-        public CommandResult Execute(string[] args, IPEndPoint sender, TcpServer server)
+        public async Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server)
         {
             var commands = _commandSystem.GetAvailableCommands();
             string response = "可用命令:\n";
@@ -191,7 +207,7 @@ namespace FR_TCP_Server
                 response += $"{cmd}\n";
             }
 
-            server.SendMessage(sender.Address, sender.Port, response);
+            await server.SendMessageAsync(sender.Address, sender.Port, response);
             return new CommandResult(true, response);
         }
     }
@@ -202,13 +218,13 @@ namespace FR_TCP_Server
         public string CommandName => "whisper";
         public string Description => "向指定IP的客户端发送私聊消息，用法: /whisper <目标IP> <消息>";
 
-        public CommandResult Execute(string[] args, IPEndPoint sender, TcpServer server)
+        public async Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server)
         {
 
             //此处没有考虑消息为空格字符的情况
             if (args.Length < 2)
             {
-                server.SendMessage(sender.Address, sender.Port, "用法: /whisper <目标IP> <消息>");
+                await server.SendMessageAsync(sender.Address, sender.Port, "用法: /whisper <目标IP> <消息>");
                 return new CommandResult(false, "用法: /whisper <目标IP> <消息>");
             }
 
@@ -222,13 +238,111 @@ namespace FR_TCP_Server
 
             if (targetClient == null)
             {
-                server.SendMessage(sender.Address, sender.Port, $"未找到目标客户端: {targetIp}");
+                await server.SendMessageAsync(sender.Address, sender.Port, $"未找到目标客户端: {targetIp}");
                 return new CommandResult(false, $"{sender.Address} 未找到目标客户端: {targetIp}");
             }
 
-            server.SendMessage(targetClient.Address, targetClient.Port, $"[私聊] {sender.Address} 说: {message}");
-            server.SendMessage(sender.Address, sender.Port, $"已发送私聊给 {targetIp}: {message}");
+            await server.SendMessageAsync(targetClient.Address, targetClient.Port, $"[私聊] {sender.Address} 说: {message}");
+            await server.SendMessageAsync(sender.Address, sender.Port, $"已发送私聊给 {targetIp}: {message}");
             return new CommandResult(true, $"{sender.Address} [私聊] {targetIp}: {message}");
+        }
+    }
+
+    public class RecoverAGVCommand : ICommandHandler
+    {
+        public string CommandName => "RecoverAGV";
+        public string Description => "恢复AGV任务";
+
+        public async Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server)
+        {
+            if (args.Length < 2)
+            {
+                await server.SendMessageAsync(sender.Address, sender.Port, "用法: /RecoverAGV <AGVCode> <MapCode>");
+                return new CommandResult(false, "用法: /RecoverAGV <AGVCode> <MapCode>");
+            }
+
+            string aGVCode = args[0];
+            string mapCode = args[1];
+            string? response = null;
+
+            //获取任务编码
+            RequestResult taskCodeResult =
+            await HttpClientHelper.Instance.ExecuteAsync(
+                ConfigManager.Instance.RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath,
+                RequestGetTaskByAgvCodeByRCS.HttpMethod,
+                JsonConvert.SerializeObject(RequestGetTaskByAgvCodeByRCS.
+                    CreateRequest(
+                        aGVCode))//agv编码
+                );
+
+            //检验RCS返回值
+            if (taskCodeResult.Success == true)
+            {
+                response = $"获取任务编码: {taskCodeResult.Content}";
+                await server.SendMessageAsync(sender.Address, sender.Port, response);
+            }
+            else
+            {
+                response = $"获取任务编码失败 Error: {taskCodeResult.Content}";
+                await server.SendMessageAsync(sender.Address, sender.Port, response);
+                return new CommandResult(false, response);
+            }
+
+            //接收到的是json字符串需要反序列化   
+            string? taskCode = JsonConvert.DeserializeObject<string>(taskCodeResult.Content);
+
+            //恢复任务
+            RequestResult recoverResult =
+            await HttpClientHelper.Instance.ExecuteAsync(
+                ConfigManager.Instance.RCSUrl + RequestRecoverAgvTaskByTaskByRCS.APIpath,
+                RequestRecoverAgvTaskByTaskByRCS.HttpMethod,
+                JsonConvert.SerializeObject(RequestRecoverAgvTaskByTaskByRCS.
+                    CreateRequest(
+                        mapCode, //地图编码
+                        taskCode))
+                );
+
+            //待办
+            ///未做返回结果验证 
+
+            response = $"已恢复任务[{recoverResult.Content}]";
+            await server.SendMessageAsync(sender.Address, sender.Port, response);
+            return new CommandResult(true, response);
+
+        }
+    }
+
+    // 拍照命令
+    public class SnapCommand : ICommandHandler
+    {
+        public string CommandName => "snap";
+        public string Description => "请求相机拍照";
+
+        public async Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server)
+        {
+            if (args.Length == 0)
+            {
+                await server.SendMessageAsync(sender.Address, sender.Port, "用法: /snap <文件名>");
+                return new CommandResult(false, "用法: /snap <文件名>");
+            }
+
+            //照片文件名
+            string fileStartName = args[0];
+
+            //响应
+            string response;
+            if (SaveFile.dirPath == null)
+                response = $"{fileStartName} 已保存到默认文件夹/Pic";
+            else
+                response = $"{fileStartName} 已保存到 {SaveFile.dirPath}";
+
+            _ = server.SendMessageAsync(sender.Address, sender.Port, response);
+
+
+            //保存文件
+            await Gemini335Camera.Instance.GetRGBDImgAsync(true, fileStartName,false);
+
+            return new CommandResult(true, response);
         }
     }
 }

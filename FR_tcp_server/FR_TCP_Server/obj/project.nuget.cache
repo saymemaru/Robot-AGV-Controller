@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "tgbGKv4NnCo=",
+  "dgSpecHash": "iC9g+bxkXD0=",
   "success": true,
   "projectFilePath": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\FR_TCP_Server.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\OMEN\\.nuget\\packages\\bitmiracle.libtiff.net\\2.4.660\\bitmiracle.libtiff.net.2.4.660.nupkg.sha512",
     "C:\\Users\\OMEN\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\OMEN\\.nuget\\packages\\sqlsugar\\5.1.4.200\\sqlsugar.5.1.4.200.nupkg.sha512"
   ],

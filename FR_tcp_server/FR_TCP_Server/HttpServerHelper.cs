@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic.Logging;
+﻿using FR_TCP_Server.RCS_API;
+using Microsoft.VisualBasic.Logging;
 using Newtonsoft.Json;  
 using System;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static FR_TCP_Server.HttpClientHelper;
 
 namespace FR_TCP_Server
 
@@ -35,9 +37,12 @@ namespace FR_TCP_Server
             {
                 ["/api/data"] = async (req, res) => await HandleDataRequest(req, res),
                 ["/POST"] = async (req, res) => await HandlePostRequest(req, res),
+                ["/api/pause"] = async (req, res) => await HandlePauseRequest(req, res),
+                ["/api/work"] = async (req, res) => await HandleRobotRequest(req, res),
                 // 其他接口...
             };
         }
+
 
         public async Task Start(string url)
         {
@@ -99,8 +104,8 @@ namespace FR_TCP_Server
         {
             try
             {
-                var request = context.Request;
-                var response = context.Response;
+                HttpListenerRequest? request = context.Request;
+                HttpListenerResponse? response = context.Response;
 
                 //Console.WriteLine($"收到请求: {request.HttpMethod} {request.Url}");
                 Log($"收到请求: {request.HttpMethod} {request.Url}");
@@ -115,6 +120,7 @@ namespace FR_TCP_Server
                     }
                 }
 
+                // 初级判断，不应加入复杂逻辑
                 // 将JSON字符串转换为RequestData（json）对象（待实现）
                 if (requestBody != null)
                 {
@@ -163,7 +169,7 @@ namespace FR_TCP_Server
         /// <param name="statusCode"></param>
         /// <param name="responseObject"></param>
         /// <returns></returns>
-        private async Task SendResponse(HttpListenerResponse response, HttpStatusCode statusCode, object responseObject)
+        public async Task SendResponse(HttpListenerResponse response, HttpStatusCode statusCode, object responseObject)
         {
             try
             {
@@ -301,8 +307,87 @@ namespace FR_TCP_Server
             // 发送响应
             await SendResponse(response, HttpStatusCode.OK, responseData);
         }
+
+        //待办（agvcode,mapcode魔法数）
+        //处理暂停请求（暂停当前车任务）
+        // api/pause
+        private async Task HandlePauseRequest(HttpListenerRequest request, HttpListenerResponse response)
+        {
+            var responseData = new
+            {
+                message = "暂停接口响应",
+                //timestamp = DateTime.Now,
+                name = "哈基咪",
+            };
+
+            // 发送响应
+            await SendResponse(response, HttpStatusCode.OK, responseData);
+
+
+            string RCSUrl = ConfigManager.Instance.RCSUrl;
+            //获取任务编码
+            RequestResult taskCodeResult =
+            await HttpClientHelper.Instance.ExecuteAsync(
+                RCSUrl + RequestGetTaskByAgvCodeByRCS.APIpath,
+                RequestGetTaskByAgvCodeByRCS.HttpMethod,
+                JsonConvert.SerializeObject(RequestGetTaskByAgvCodeByRCS.
+                    CreateRequest(
+                        "1"))//agv编码
+                );
+            if (taskCodeResult.Success == true)
+            {
+                //接收到的是json字符串需要反序列化
+                Log($"获得任务编码: {taskCodeResult.Content}");
+            }
+            else
+            {
+                Log($"获取任务编码失败 Error: {taskCodeResult.Content}");
+            }
+
+            string? taskCode = JsonConvert.DeserializeObject<string>(taskCodeResult.Content);
+
+            //暂停任务
+            Log($"{JsonConvert.SerializeObject(RequestChangeTaskStateByTaskByRCS.CreateRequest("2", taskCode))}");
+
+            RequestResult pauseResult =
+            await HttpClientHelper.Instance.ExecuteAsync(
+                RCSUrl + RequestChangeTaskStateByTaskByRCS.APIpath,
+                RequestChangeTaskStateByTaskByRCS.HttpMethod,
+                JsonConvert.SerializeObject(RequestChangeTaskStateByTaskByRCS.
+                    CreateRequest(
+                        "2", //地图编码
+                        taskCode))
+                );
+
+            Log($"已暂停任务[{pauseResult.Content}]");
+
+            //响应信息
+
+        }
+
+
+        /// <summary>
+        /// 向所有客户端广播，机器人work指令
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        private async Task HandleRobotRequest(HttpListenerRequest request, HttpListenerResponse response)
+        {
+            var responseData = new
+            {
+                message = "机械臂正在工作",
+                //timestamp = DateTime.Now,
+                name = "哈基咪",
+            };
+            // 发送响应
+            await SendResponse(response, HttpStatusCode.OK, responseData);
+
+
+            await Form1.TCPServer.BroadcastMessageAsync("work");
+
+        }
     }
- 
 }
 
 

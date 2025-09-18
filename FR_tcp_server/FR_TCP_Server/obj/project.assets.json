@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net8.0-windows7.0": {
+      "BitMiracle.LibTiff.NET/2.4.660": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/BitMiracle.LibTiff.NET.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/BitMiracle.LibTiff.NET.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
@@ -27,6 +40,19 @@
     }
   },
   "libraries": {
+    "BitMiracle.LibTiff.NET/2.4.660": {
+      "sha512": "Drd0fDFVrR3v19IJtqiDVnjgcVZoGlzFw/CYni1OQ5/xVYvjPNp18E9eu+dH/RmpIUw6Pn/JhE/H+Yc3kHI89A==",
+      "type": "package",
+      "path": "bitmiracle.libtiff.net/2.4.660",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "bitmiracle.libtiff.net.2.4.660.nupkg.sha512",
+        "bitmiracle.libtiff.net.nuspec",
+        "lib/netstandard2.0/BitMiracle.LibTiff.NET.dll",
+        "lib/netstandard2.0/BitMiracle.LibTiff.NET.xml"
+      ]
+    },
     "Newtonsoft.Json/13.0.3": {
       "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
@@ -72,13 +98,13 @@
   },
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
+      "BitMiracle.LibTiff.NET >= 2.4.660",
       "Newtonsoft.Json >= 13.0.3",
       "SqlSugar >= 5.1.4.200"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\OMEN\\.nuget\\packages\\": {},
-    "F:\\app\\visual studio\\tools\\NuGetPackages": {}
+    "C:\\Users\\OMEN\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -89,12 +115,8 @@
       "packagesPath": "C:\\Users\\OMEN\\.nuget\\packages\\",
       "outputPath": "E:\\work\\FutureRay\\FR_Robot\\GIT\\FR_tcp_server\\FR_TCP_Server\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "F:\\app\\visual studio\\tools\\NuGetPackages"
-      ],
       "configFilePaths": [
         "C:\\Users\\OMEN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -126,6 +148,10 @@
       "net8.0-windows7.0": {
         "targetAlias": "net8.0-windows",
         "dependencies": {
+          "BitMiracle.LibTiff.NET": {
+            "target": "Package",
+            "version": "[2.4.660, )"
+          },
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
