@@ -1,4 +1,5 @@
 ﻿using FR_TCP_Server.RCS_API;
+using Gemini335;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
@@ -308,6 +309,40 @@ namespace FR_TCP_Server
             await server.SendMessageAsync(sender.Address, sender.Port, response);
             return new CommandResult(true, response);
 
+        }
+    }
+
+    // 拍照命令
+    public class SnapCommand : ICommandHandler
+    {
+        public string CommandName => "snap";
+        public string Description => "请求相机拍照";
+
+        public async Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server)
+        {
+            if (args.Length == 0)
+            {
+                await server.SendMessageAsync(sender.Address, sender.Port, "用法: /snap <文件名>");
+                return new CommandResult(false, "用法: /snap <文件名>");
+            }
+
+            //照片文件名
+            string fileStartName = args[0];
+
+            //响应
+            string response;
+            if (SaveFile.dirPath == null)
+                response = $"{fileStartName} 已保存到默认文件夹/Pic";
+            else
+                response = $"{fileStartName} 已保存到 {SaveFile.dirPath}";
+
+            _ = server.SendMessageAsync(sender.Address, sender.Port, response);
+
+
+            //保存文件
+            await Gemini335Camera.Instance.GetRGBDImgAsync(true, fileStartName,false);
+
+            return new CommandResult(true, response);
         }
     }
 }

@@ -38,6 +38,7 @@ namespace FR_TCP_Server
             _commandSystem.RegisterCommand(new HelpCommand(_commandSystem));
             _commandSystem.RegisterCommand(new WhisperCommand());
             _commandSystem.RegisterCommand(new RecoverAGVCommand());
+            _commandSystem.RegisterCommand(new SnapCommand());
         }
 
         // 启动服务器

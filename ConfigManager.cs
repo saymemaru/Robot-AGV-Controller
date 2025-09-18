@@ -20,5 +20,11 @@ namespace FR_TCP_Server
 
         public string RCSUrl { get; set; } = "http://192.168.2.101:50060/";
 
+        public string snapPicPath { get; private set; } = $"{Path.Combine(AppContext.BaseDirectory,"Pic")}";
+
+        public static string timeStamp = "yyyyMMdd_HHmmss";
+
+        public static string logTimeStamp { get; private set; } = $"[{DateTime.Now:HH:mm:ss}]";
+
     }
 }
