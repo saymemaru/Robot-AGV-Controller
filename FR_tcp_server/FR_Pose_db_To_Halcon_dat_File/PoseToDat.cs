@@ -79,7 +79,10 @@ namespace FR_Pose_db_To_Halcon_dat_File
                             writer.WriteLine($"r {reader["rx"]} {reader["ry"]} {reader["rz"]}");
                             writer.WriteLine();
                             writer.WriteLine("# Translational vector (x y z [m]):");
-                            writer.WriteLine($"t {reader["x"]} {reader["y"]} {reader["z"]}");
+                            double x = Convert.ToDouble(reader["x"]) / 1000.0;
+                            double y = Convert.ToDouble(reader["y"]) / 1000.0;
+                            double z = Convert.ToDouble(reader["z"]) / 1000.0;
+                            writer.WriteLine($"t {x} {y} {z}");
                             writer.WriteLine();
                             writer.WriteLine("#");
                             writer.WriteLine("# HALCON version 6.1 --   Wed Nov 20 11:42:00 2002");

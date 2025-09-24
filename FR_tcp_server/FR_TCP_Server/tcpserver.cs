@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -39,6 +41,7 @@ namespace FR_TCP_Server
             _commandSystem.RegisterCommand(new WhisperCommand());
             _commandSystem.RegisterCommand(new RecoverAGVCommand());
             _commandSystem.RegisterCommand(new SnapCommand());
+            _commandSystem.RegisterCommand(new GetPoseCommand());
         }
 
         // 启动服务器

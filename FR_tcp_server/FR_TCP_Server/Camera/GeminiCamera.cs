@@ -36,7 +36,7 @@ namespace Gemini335
             // Create configuration files for color and depth streams. 0 is the default configuration.
             this.colorProfile = pipeline.
                 GetStreamProfileList(SensorType.OB_SENSOR_COLOR).
-                GetVideoStreamProfile(imageWidth, imageHeight, Format.OB_FORMAT_RGB, fps);
+                GetVideoStreamProfile(imageWidth, imageHeight, Format.OB_FORMAT_BGR, fps);
             this.depthProfile = pipeline.
                 GetStreamProfileList(SensorType.OB_SENSOR_DEPTH).
                 GetVideoStreamProfile(imageWidth, imageHeight, Format.OB_FORMAT_Y16, fps);

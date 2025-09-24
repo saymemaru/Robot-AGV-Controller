@@ -136,7 +136,7 @@ namespace Gemini335
 
 
                 // 直接保存原始深度数据
-               // File.WriteAllBytes(GetSavePath(fileName + "_Depth.raw", isFileOverride), depthData);
+                File.WriteAllBytes(GetSavePath(fileName + "_Depth.raw", isFileOverride), depthData);
             }
         }
 

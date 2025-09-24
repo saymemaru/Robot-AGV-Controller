@@ -5,7 +5,8 @@ agvCode = "1"
 mapCode = "2"
 RegisterVar("string","agvCode")
 RegisterVar("string","mapCode")
-SocketOpen(IP,port,"socket_0")
+
+SocketOpen(IP,port,"socket_0)
 SocketSendString("我是" ..name.."\n","socket_0",0)
 while(1) do
     receivedMessage = SocketReadString("socket_0",0)
@@ -38,3 +39,30 @@ SocketSendString("再见\n","socket_0",0)
         WaitMs(5000)
     end
 end
+
+	
+	
+	
+-- 获取坐标，移动到坐标
+x,y,z,rx,ry,rz = GetActualTCPPose()
+pos = {x,y,z,rx,ry,rz}
+RegisterVar("number","x")
+RegisterVar("number","y")
+RegisterVar("number","z")
+RegisterVar("number","rx")
+RegisterVar("number","ry")
+RegisterVar("number","rz")
+MoveCart(pos,0,0,100,50,50,0)
+
+--检测是否连接tcp
+tcp = SocketOpen(IP,port,"socket_0)
+if tcp == 0 then
+tcp = SocketOpen(IP,port,"socket_0)
+WaitMs(5000)
+elseif tcp == 1 then
+--
+--执行逻辑
+--
+end
+
+

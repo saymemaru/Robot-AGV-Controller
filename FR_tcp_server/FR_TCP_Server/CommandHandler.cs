@@ -84,7 +84,7 @@ namespace FR_TCP_Server
                     return new CommandResult(true, $"命令冷却中，请稍后再试（{cooldownSeconds}秒）");
                 }
             }
-
+            
             // 解析命令和参数,以空格分割
             var parts = message.Substring(1).Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length == 0)
@@ -204,7 +204,7 @@ namespace FR_TCP_Server
 
             foreach (var cmd in commands)
             {
-                response += $"{cmd}\n";
+                response += $"{cmd} \n";
             }
 
             await server.SendMessageAsync(sender.Address, sender.Port, response);
@@ -326,6 +326,8 @@ namespace FR_TCP_Server
                 return new CommandResult(false, "用法: /snap <文件名>");
             }
 
+            //待办
+            //添加文件名合法性检查
             //照片文件名
             string fileStartName = args[0];
 
@@ -338,11 +340,55 @@ namespace FR_TCP_Server
 
             _ = server.SendMessageAsync(sender.Address, sender.Port, response);
 
-
             //保存文件
-            await Gemini335Camera.Instance.GetRGBDImgAsync(true, fileStartName,false);
+            await Gemini335Camera.Instance.GetRGBDImgAsync(true, fileStartName,true);
 
             return new CommandResult(true, response);
         }
     }
+
+    //将参数转换为坐标，记录到服务器,转换完成后发回客户端
+    public class GetPoseCommand : ICommandHandler
+    {
+        public string CommandName => "getpose";
+        public string Description => "读取参数中的坐标";
+
+        public async Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server)
+        {
+            switch(args.Length)
+            {
+                case 0:
+                    await server.SendMessageAsync(sender.Address, sender.Port, "用法: /getpose <float参数>");
+                    return new CommandResult(false, "用法: /snap <float参数>");
+                case 6:
+                    if(float.TryParse(args[0], out float x) &&
+                       float.TryParse(args[1], out float y) &&
+                       float.TryParse(args[2], out float z) &&
+                       float.TryParse(args[3], out float rx) &&
+                       float.TryParse(args[4], out float ry) &&
+                       float.TryParse(args[5], out float rz))
+                    {
+                        string response = $"读取坐标: X:{x} Y:{y} Z:{z} Roll:{rx} Pitch:{ry} Yaw:{rz}";
+
+                        //待办
+                        //输入处理函数，输出pose
+                        string pose = $"{x + 10} {y + 10} {z + 100} {rx} {ry} {rz}";
+                        //
+
+                        await server.SendMessageAsync(sender.Address, sender.Port, pose);
+                        return new CommandResult(true, response);
+                    }
+                    else
+                    {
+                        string response = "参数格式错误，请输入数字";
+                        await server.SendMessageAsync(sender.Address, sender.Port, response);
+                        return new CommandResult(false, response);
+                    }
+                default:
+                    return new CommandResult(false, "未受支持的参数数量");
+
+            }
+        }
+    }
+
 }
