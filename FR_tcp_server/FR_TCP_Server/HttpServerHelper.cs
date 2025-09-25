@@ -64,7 +64,7 @@ namespace FR_TCP_Server
             catch (Exception ex)
             {
                 isRunning = false;
-                Log($"启动服务器时出错: {ex.Message}");
+                Log($"启动服务器时出错: {ex.Message}请查看IP设置是否正确。");
             }
         }
 

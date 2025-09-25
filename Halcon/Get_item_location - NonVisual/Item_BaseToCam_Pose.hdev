@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="23.11.0.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* 初始设置</c>
+<c>* （path）输入图片路径</c>
+<l>ImageDir := 'E:/Halcon/Get_item_location/inputImages'</l>
+<c>* (path)模型数据路径</c>
+<l>ExampleDataDir := 'E:/Halcon/Get_item_location'</l>
+<c>*</c>
+<c>* (bool)是否使用预训练模型</c>
+<l>UsePretrainedModel := true</l>
+<c>* (path)模型数据名称</c>
+<l>if (UsePretrainedModel)</l>
+<c>    * Use the pretrained model and preprocessing parameters shipping with HALCON.</c>
+<c>    *预训练参数路径hdict</c>
+<l>    PreprocessParamFileName := 'model_test1.hdict'</l>
+<c>    *预训练模型路径hdl</c>
+<l>    RetrainedModelFileName := 'model_test1.hdl'</l>
+<l>else</l>
+<c>    * File name of the dict containing parameters used for preprocessing.</c>
+<c>    * Note: Adapt DataDirectory after preprocessing with another image size.</c>
+<l>    DataDirectory := ExampleDataDir + '/dldataset_pill_bag_512x320'</l>
+<l>    PreprocessParamFileName := DataDirectory + '/dl_preprocess_param.hdict'</l>
+<c>    * File name of the finetuned object detection model.</c>
+<l>    RetrainedModelFileName := ExampleDataDir + '/best_dl_model_detection.hdl'</l>
+<l>endif</l>
+<c>*</c>
+<c>* 选择运行设备（当前设置优先选择 GPU ）</c>
+<l>query_available_dl_devices (['runtime', 'runtime'], ['gpu', 'cpu'], DLDeviceHandles)</l>
+<l>if (|DLDeviceHandles| == 0)</l>
+<l>    throw ('No supported device found to continue this example.')</l>
+<l>endif</l>
+<c>* Due to the filter used in query_available_dl_devices, the first device is a GPU, if available.</c>
+<l>DLDevice := DLDeviceHandles[0]</l>
+<c>* </c>
+<c>* 推理批次数量.</c>
+<l>BatchSizeInference := 1</l>
+<c>* 最小至信度</c>
+<l>MinConfidence := 0.4</l>
+<c>* 最大重叠度</c>
+<l>MaxOverlap := 0.2</l>
+<c>* 类别不可知最大重叠度</c>
+<l>MaxOverlapClassAgnostic := 0.7</l>
+<c></c>
+<c>* 检查文件是否齐全</c>
+<l>check_data_availability (ExampleDataDir, PreprocessParamFileName, RetrainedModelFileName, UsePretrainedModel)</l>
+<c></c>
+<c>* 读取重训练模型</c>
+<l>read_dl_model (RetrainedModelFileName, DLModelHandle)</l>
+<c>* </c>
+<c>* 设置批次数量.</c>
+<l>set_dl_model_param (DLModelHandle, 'batch_size', BatchSizeInference)</l>
+<c>* </c>
+<c>* 初始化模型推断.</c>
+<l>set_dl_model_param (DLModelHandle, 'device', DLDevice)</l>
+<c>* </c>
+<c>* 设置模型后处理参数.</c>
+<l>set_dl_model_param (DLModelHandle, 'min_confidence', MinConfidence)</l>
+<l>set_dl_model_param (DLModelHandle, 'max_overlap', MaxOverlap)</l>
+<l>set_dl_model_param (DLModelHandle, 'max_overlap_class_agnostic', MaxOverlapClassAgnostic)</l>
+<c>* </c>
+<c>* 获取预处理参数.</c>
+<l>read_dict (PreprocessParamFileName, [], [], DLPreprocessParam)</l>
+<c>*</c>
+<l>DLDataInfo := dict{}</l>
+<l>get_dl_model_param (DLModelHandle, 'class_names', ClassNames)</l>
+<l>DLDataInfo.class_names := ClassNames</l>
+<l>get_dl_model_param (DLModelHandle, 'class_ids', ClassIDs)</l>
+<l>DLDataInfo.class_ids := ClassIDs</l>
+<c>* 可视化通用参数.</c>
+<c>*——————————————————————————————————————————————————————</c>
+<c></c>
+<c></c>
+<c>* 推理区</c>
+<l>read_image (ImageBatch, 'E:/Halcon/Get_item_location/inputImages/1_Color.png')</l>
+<c>* </c>
+<c>* Generate the DLSampleBatch.</c>
+<l>gen_dl_samples_from_images (ImageBatch, DLSampleBatch)</l>
+<c>* </c>
+<c>* Preprocess the DLSampleBatch.</c>
+<l>preprocess_dl_samples (DLSampleBatch, DLPreprocessParam)</l>
+<c>* </c>
+<c>* Apply the DL model on the DLSampleBatch.</c>
+<l>apply_dl_model (DLModelHandle, DLSampleBatch, [], DLResultBatch)</l>
+<c>* </c>
+<c></c>
+<l>for SampleIndex := 0 to BatchSizeInference - 1 by 1</l>
+<c>    * </c>
+<c>    * Get sample and according results.</c>
+<l>    DLSample := DLSampleBatch[SampleIndex]</l>
+<l>    DLResult := DLResultBatch[SampleIndex]</l>
+<c>    * </c>
+<c>    * Count detected pills for each class.</c>
+<l>    DetectedClassIDs := DLResult.bbox_class_id</l>
+<l>    tuple_gen_const (|ClassIDs|, 0, NumberDetectionsPerClass)</l>
+<l>    for Index := 0 to |ClassIDs| - 1 by 1</l>
+<l>        NumberDetectionsPerClass[Index] := sum(DetectedClassIDs [==] ClassIDs[Index])</l>
+<l>    endfor</l>
+<c></c>
+<l>    stop ()</l>
+<l>endfor</l>
+<c></c>
+<c>*—————————————————————————————————————————————————————</c>
+<c>* 计算区</c>
+<c>* 获取 第一个 物体 中心点 像素坐标</c>
+<l>bbox_row := (DLResult.bbox_row2[0] - DLResult.bbox_row1[0]) / 2 + DLResult.bbox_row1[0]</l>
+<l>bbox_col := (DLResult.bbox_col2[0] - DLResult.bbox_col1[0]) / 2 + DLResult.bbox_col1[0]</l>
+<c></c>
+<c>*获取距离图片中心距离最近的目标坐标（DLResult.bbox_row，DLResult.bbox_col）       </c>
+<l>* area_center(ImageBatch, Area, image_Row_Center, image_Col_Center)</l>
+<c>*计算距离元组</c>
+<l>* distances := sqrt(exp2(DLResult.bbox_row - cx) + exp2(DLResult.bbox_col - cy))</l>
+<c>*找到最小距离</c>
+<l>* tuple_min(distances, min_distance)</l>
+<c>*找到最小距离index</c>
+<l>* tuple_find_first(distances, min_distance, targetIndex)   </l>
+<c>*目标坐标</c>
+<l>* target_Row := DLResult.bbox_row[targetIndex]</l>
+<l>* target_Col := DLResult.bbox_col[targetIndex]        </l>
+<c>      </c>
+<c></c>
+<c>* 1. 读取标定数据</c>
+<l>read_pose('movingcam_final_pose_cam_tool.dat', Pose_CamToTool)</l>
+<c></c>
+<c>* 坐标，单位像素</c>
+<l>u := bbox_row[0]</l>
+<l>v := bbox_col[0]</l>
+<c></c>
+<c>* 读取tiff文件获取深度，单位mm</c>
+<l>read_image (DepthImage, 'E:/Halcon/Get_item_location/inputImages/1_Depth.Tiff')</l>
+<l>get_grayval (DepthImage, v, u, depth)</l>
+<c></c>
+<c>* 相机内参单位（像素）</c>
+<l>fx := 460.082031</l>
+<l>fy := 460.323242</l>
+<l>cx := 325.222778</l>
+<l>cy := 241.309494</l>
+<c></c>
+<c>* 物体在相机坐标系下的坐标</c>
+<l>X_camera := (u - cx) * depth / fx /1000</l>
+<l>Y_camera := (v - cy) * depth / fy /1000</l>
+<l>Z_camera := depth / 1000</l>
+<c></c>
+<c></c>
+<c>* 2. 获取当前工具位姿</c>
+<l>X := 55.589</l>
+<l>Y := -459.482</l>
+<l>Z := 188.167</l>
+<l>Rx := -179</l>
+<l>Ry := -0.075</l>
+<l>Rz := -175.964</l>
+<l>create_pose(X/1000, Y/1000, Z/1000, Rx, Ry, Rz, 'Rp+T', 'gba', 'point', Pose_BaseToTool)</l>
+<c></c>
+<c>*物体到基座矩阵HomMat3D_BaseToCam</c>
+<l>pose_invert(Pose_CamToTool, Pose_ToolToCam)</l>
+<l>pose_compose(Pose_BaseToTool, Pose_ToolToCam, Pose_BaseToCam)</l>
+<l>pose_to_hom_mat3d(Pose_BaseToCam, HomMat3D_BaseToCam)</l>
+<c></c>
+<c>* 物体到基坐标系（Xb, Yb, Zb）</c>
+<l>affine_trans_point_3d(HomMat3D_BaseToCam, X_camera, Y_camera, Z_camera, Xb, Yb, Zb)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="check_data_availability">
+<interface>
+<ic>
+<par name="ExampleDataDir" base_type="ctrl" dimension="0"/>
+<par name="PreprocessParamFileName" base_type="ctrl" dimension="0"/>
+<par name="TrainedModelFileName" base_type="ctrl" dimension="0"/>
+<par name="UsePretrainedModel" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* This procedure checks if all necessary files are available.</c>
+<c></c>
+<l>file_exists (ExampleDataDir, FileExists)</l>
+<l>if (not FileExists)</l>
+<l>    throw (ExampleDataDir + ' does not exist. Please run part 1 and 2 of example series.')</l>
+<l>endif</l>
+<c></c>
+<l>file_exists (PreprocessParamFileName, FileExists)</l>
+<l>if (not FileExists)</l>
+<l>    throw (PreprocessParamFileName + ' does not exist. Please run part 1 of example series.')</l>
+<l>endif</l>
+<c></c>
+<l>file_exists (TrainedModelFileName, FileExists)</l>
+<l>if (not FileExists)</l>
+<l>    if (UsePretrainedModel)</l>
+<l>        throw (TrainedModelFileName + ' does not exist. Please run the HALCON Deep Learning installer.')</l>
+<l>    else</l>
+<l>        throw (TrainedModelFileName + ' does not exist. Please run part 2 of example series.')</l>
+<l>    endif</l>
+<l>endif</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="check_data_availability">
+<parameters>
+<parameter id="ExampleDataDir"/>
+<parameter id="PreprocessParamFileName"/>
+<parameter id="TrainedModelFileName"/>
+<parameter id="UsePretrainedModel"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="get_example_inference_images">
+<interface>
+<ic>
+<par name="ImageDir" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="ImageFiles" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* This procedure creates a list of images used for this example.</c>
+<c></c>
+<c>* 测试图片循环数量</c>
+<l>NumSamples := 5</l>
+<l>tuple_gen_const (NumSamples, '', ImageFiles)</l>
+<c></c>
+<c>* bags containing all pills.</c>
+<l>* ImageFilesIndices := [152, 41, 164, 49]</l>
+<c>* bags containing only duplicates.</c>
+<l>* ImageFilesIndices := [ImageFilesIndices,121, 59]</l>
+<c>* bags containing only missing pills.</c>
+<l>* ImageFilesIndices := [ImageFilesIndices,178, 18]</l>
+<c>* bags containing both, duplicates and missing pills</c>
+<l>* ImageFilesIndices := [ImageFilesIndices,146, 294]</l>
+<c></c>
+<c>* 图片序号</c>
+<l>ImageFilesIndices := [1, 2, 3, 4, 5]</l>
+<c>* 图片路径</c>
+<c>* '/pill_bag_' + ImageFilesIndices[Index]$'03' + '.png'</c>
+<l>for Index := 0 to NumSamples - 1 by 1</l>
+<l>    ImageFiles[Index] := ImageDir + '/' + ImageFilesIndices[Index] + '_Color' + '.png'</l>
+<l>endfor</l>
+<c></c>
+<l>tuple_shuffle (ImageFiles, ImageFiles)</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="get_example_inference_images">
+<parameters>
+<parameter id="ImageDir"/>
+<parameter id="ImageFiles"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

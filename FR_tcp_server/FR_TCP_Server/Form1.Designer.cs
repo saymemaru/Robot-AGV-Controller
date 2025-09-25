@@ -46,6 +46,7 @@
             RCSURLBox = new TextBox();
             TestButton1 = new Button();
             TestButton2 = new Button();
+            VisionInitialButton1 = new Button();
             SuspendLayout();
             // 
             // ServerIPBox
@@ -138,7 +139,7 @@
             // 
             BoardcastButton.Location = new Point(728, 443);
             BoardcastButton.Name = "BoardcastButton";
-            BoardcastButton.Size = new Size(75, 23);
+            BoardcastButton.Size = new Size(85, 23);
             BoardcastButton.TabIndex = 10;
             BoardcastButton.Text = "广播";
             BoardcastButton.UseVisualStyleBackColor = true;
@@ -146,9 +147,9 @@
             // 
             // CameraConectionButton1
             // 
-            CameraConectionButton1.Location = new Point(728, 41);
+            CameraConectionButton1.Location = new Point(728, 12);
             CameraConectionButton1.Name = "CameraConectionButton1";
-            CameraConectionButton1.Size = new Size(75, 23);
+            CameraConectionButton1.Size = new Size(85, 23);
             CameraConectionButton1.TabIndex = 11;
             CameraConectionButton1.Text = "相机连接";
             CameraConectionButton1.UseVisualStyleBackColor = true;
@@ -156,9 +157,9 @@
             // 
             // SaveCloudPointButton
             // 
-            SaveCloudPointButton.Location = new Point(728, 70);
+            SaveCloudPointButton.Location = new Point(728, 41);
             SaveCloudPointButton.Name = "SaveCloudPointButton";
-            SaveCloudPointButton.Size = new Size(75, 23);
+            SaveCloudPointButton.Size = new Size(85, 23);
             SaveCloudPointButton.TabIndex = 12;
             SaveCloudPointButton.Text = "保存点云";
             SaveCloudPointButton.UseVisualStyleBackColor = true;
@@ -166,9 +167,9 @@
             // 
             // SaveRGBButton
             // 
-            SaveRGBButton.Location = new Point(728, 99);
+            SaveRGBButton.Location = new Point(728, 70);
             SaveRGBButton.Name = "SaveRGBButton";
-            SaveRGBButton.Size = new Size(75, 23);
+            SaveRGBButton.Size = new Size(85, 23);
             SaveRGBButton.TabIndex = 13;
             SaveRGBButton.Text = "保存RGB";
             SaveRGBButton.UseVisualStyleBackColor = true;
@@ -203,29 +204,41 @@
             // 
             // TestButton1
             // 
-            TestButton1.Location = new Point(728, 233);
+            TestButton1.Location = new Point(728, 150);
             TestButton1.Name = "TestButton1";
-            TestButton1.Size = new Size(75, 23);
+            TestButton1.Size = new Size(85, 23);
             TestButton1.TabIndex = 17;
-            TestButton1.Text = "Test暂停";
+            TestButton1.Text = "RCS暂停";
             TestButton1.UseVisualStyleBackColor = true;
             TestButton1.Click += TestButton1_Click;
             // 
             // TestButton2
             // 
-            TestButton2.Location = new Point(728, 262);
+            TestButton2.Location = new Point(728, 179);
             TestButton2.Name = "TestButton2";
-            TestButton2.Size = new Size(75, 23);
+            TestButton2.Size = new Size(85, 23);
             TestButton2.TabIndex = 18;
-            TestButton2.Text = "Test恢复";
+            TestButton2.Text = "RCS恢复";
             TestButton2.UseVisualStyleBackColor = true;
             TestButton2.Click += TestButton2_Click;
+            // 
+            // VisionInitialButton1
+            // 
+            VisionInitialButton1.BackColor = Color.Red;
+            VisionInitialButton1.Location = new Point(728, 410);
+            VisionInitialButton1.Name = "VisionInitialButton1";
+            VisionInitialButton1.Size = new Size(85, 23);
+            VisionInitialButton1.TabIndex = 19;
+            VisionInitialButton1.Text = "视觉初始化";
+            VisionInitialButton1.UseVisualStyleBackColor = false;
+            VisionInitialButton1.Click += VisionInitialButton1_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(818, 512);
+            ClientSize = new Size(825, 512);
+            Controls.Add(VisionInitialButton1);
             Controls.Add(TestButton2);
             Controls.Add(TestButton1);
             Controls.Add(RCSURLBox);
@@ -270,5 +283,6 @@
         private TextBox RCSURLBox;
         private Button TestButton1;
         private Button TestButton2;
+        private Button VisionInitialButton1;
     }
 }

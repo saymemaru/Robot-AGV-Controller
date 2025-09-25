@@ -1,3 +1,6 @@
 *.bat
 Debug/
 Release/
+
+*.hdl
+*.hdict

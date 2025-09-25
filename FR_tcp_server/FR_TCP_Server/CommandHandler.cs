@@ -200,7 +200,7 @@ namespace FR_TCP_Server
         public async Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server)
         {
             var commands = _commandSystem.GetAvailableCommands();
-            string response = "可用命令:\n";
+            string response = "可用命令: \n";
 
             foreach (var cmd in commands)
             {
@@ -347,19 +347,21 @@ namespace FR_TCP_Server
         }
     }
 
+    //默认已执行/snap 1 ,已获得1_Color.png和1_Depth.Tiff
     //将参数转换为坐标，记录到服务器,转换完成后发回客户端
-    public class GetPoseCommand : ICommandHandler
+    public class PoseToBaseCommand : ICommandHandler
     {
-        public string CommandName => "getpose";
-        public string Description => "读取参数中的坐标";
+        public string CommandName => "posetobase";
+        public string Description => "将接收到的位姿字符串（以空格分割）转换到机械臂基坐标系下";
 
         public async Task<CommandResult> ExecuteAsync(string[] args, IPEndPoint sender, TcpServer server)
         {
             switch(args.Length)
             {
                 case 0:
-                    await server.SendMessageAsync(sender.Address, sender.Port, "用法: /getpose <float参数>");
-                    return new CommandResult(false, "用法: /snap <float参数>");
+                    await server.SendMessageAsync(sender.Address, sender.Port, "用法: /posetobase <f1> <f2> <f3> <f4> <f5> <f6>");
+                    return new CommandResult(false, "用法: /posetobase <f1> <f2> <f3> <f4> <f5> <f6>");
+
                 case 6:
                     if(float.TryParse(args[0], out float x) &&
                        float.TryParse(args[1], out float y) &&
@@ -368,15 +370,23 @@ namespace FR_TCP_Server
                        float.TryParse(args[4], out float ry) &&
                        float.TryParse(args[5], out float rz))
                     {
-                        string response = $"读取坐标: X:{x} Y:{y} Z:{z} Roll:{rx} Pitch:{ry} Yaw:{rz}";
+                        //string response = $"读取坐标: X:{x} Y:{y} Z:{z} Roll:{rx} Pitch:{ry} Yaw:{rz}";
+                        //获得位姿数组输入处理函数，输出pose
+                        float[] poseArray = [x, y, z, rx, ry, rz];
+                        poseArray = ConfigManager.Instance.dLSegmentModel.CalculateItemToBasePose(poseArray);
+                        //未发现物体（收到空数组）
+                        if(poseArray.Length == 0)
+                        {
+                            string response = "未发现物体";
+                            await server.SendMessageAsync(sender.Address, sender.Port, response);
+                            return new CommandResult(false, response);
+                        }
 
-                        //待办
-                        //输入处理函数，输出pose
-                        string pose = $"{x + 10} {y + 10} {z + 100} {rx} {ry} {rz}";
-                        //
+                        //发现物体，返回转换后的坐标
+                        string poseArrayString = string.Join(' ', poseArray);
 
-                        await server.SendMessageAsync(sender.Address, sender.Port, pose);
-                        return new CommandResult(true, response);
+                        await server.SendMessageAsync(sender.Address, sender.Port, poseArrayString);
+                        return new CommandResult(true, poseArrayString);
                     }
                     else
                     {

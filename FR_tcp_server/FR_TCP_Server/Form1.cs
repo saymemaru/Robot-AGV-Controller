@@ -1,9 +1,11 @@
 using FR_TCP_Server.RCS_API;
+using FR_TCP_Server.Vision;
 using Microsoft.VisualBasic.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static FR_TCP_Server.HttpClientHelper;
 using static System.Net.Mime.MediaTypeNames;
@@ -344,7 +346,7 @@ namespace FR_TCP_Server
 
                 string? taskCode = JsonConvert.DeserializeObject<string>(taskCodeResult.Content);
 
-                RequestResult recoverResult = 
+                RequestResult recoverResult =
                 await HttpClientHelper.Instance.ExecuteAsync(
                     ConfigManager.Instance.RCSUrl + RequestRecoverAgvTaskByTaskByRCS.APIpath,
                     RequestRecoverAgvTaskByTaskByRCS.HttpMethod,
@@ -355,6 +357,19 @@ namespace FR_TCP_Server
                     );
                 Log($"已恢复任务[{recoverResult.Content}]");
             });
+        }
+
+        //视觉初始化
+        private async void VisionInitialButton1_Click(object sender, EventArgs e)
+        {
+            await Task.Run(() =>
+            {
+                //耗时约10秒
+                ConfigManager.Instance.dLSegmentModel.Initialize();
+                Log($"{ConfigManager.Instance.dLSegmentModel} 视觉参数已加载");
+            });
+            VisionInitialButton1.BackColor = SystemColors.Control;
+
         }
     }
 }

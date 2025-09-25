@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
+using FR_TCP_Server.Vision;
 
 namespace FR_TCP_Server
 {
@@ -17,6 +18,8 @@ namespace FR_TCP_Server
         private ConfigManager()
         {
         }
+
+        public DLSegmentModel dLSegmentModel = new DLSegmentModel();
 
         public string RCSUrl { get; set; } = "http://192.168.2.101:50060/";
 

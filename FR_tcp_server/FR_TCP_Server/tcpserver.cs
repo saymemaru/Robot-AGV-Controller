@@ -41,7 +41,7 @@ namespace FR_TCP_Server
             _commandSystem.RegisterCommand(new WhisperCommand());
             _commandSystem.RegisterCommand(new RecoverAGVCommand());
             _commandSystem.RegisterCommand(new SnapCommand());
-            _commandSystem.RegisterCommand(new GetPoseCommand());
+            _commandSystem.RegisterCommand(new PoseToBaseCommand());
         }
 
         // 启动服务器

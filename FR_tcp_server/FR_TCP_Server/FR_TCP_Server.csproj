@@ -19,6 +19,9 @@
     <Reference Include="DkamSDK_CSharp_Namespace">
       <HintPath>bin\x64\Release\DkamSDK_CSharp_Namespace.dll</HintPath>
     </Reference>
+    <Reference Include="halcondotnet">
+      <HintPath>lib\Halcon\halcondotnet.dll</HintPath>
+    </Reference>
     <Reference Include="ob_csharp">
       <HintPath>lib\OrbbecSDK\ob_csharp.dll</HintPath>
     </Reference>
